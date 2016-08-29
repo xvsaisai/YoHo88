@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/home_banner"
+    tools:context=".activity.ChooseActivity">
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_centerHorizontal="true"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_marginTop="200dp"
+    android:layout_marginBottom="200dp">
+<ImageButton
+    android:id="@+id/ib_1"
+    android:onClick="start"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/choose_boy_bg_select"/>
+    <View
+        android:layout_weight="1"
+        android:layout_width="20dp"
+        android:layout_height="0dp"/>
+<ImageButton
+    android:id="@+id/ib_2"
+    android:onClick="start"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/choose_girl_bg_select"/>
+    <View
+        android:layout_weight="1"
+        android:layout_width="20dp"
+        android:layout_height="0dp"/>
+<ImageButton
+    android:id="@+id/ib_3"
+    android:onClick="start"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/choose_child_bg_select"/>
+    <View
+        android:layout_weight="1"
+        android:layout_width="20dp"
+        android:layout_height="0dp"/>
+<ImageButton
+    android:id="@+id/ib_4"
+    android:onClick="start"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/choose_lifestyle_bg_select"/>
+</LinearLayout>
+</RelativeLayout>

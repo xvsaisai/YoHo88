@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@color/main_toolbar_color"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize">
+        <include
+            android:id="@+id/open"
+            layout="@layout/main_toolbar_open"/>
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tab"
+            android:layout_centerInParent="true"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:tabMaxWidth="80dp"
+            app:tabMode="scrollable"
+            app:tabTextColor="#ffffff"
+            app:tabIndicatorColor="#ffffff"
+            app:tabSelectedTextColor="#ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"></android.support.design.widget.TabLayout>
+    </RelativeLayout>
+<com.example.saisai.yoho.view.FenLeiViewPager
+    android:id="@+id/pager"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"></com.example.saisai.yoho.view.FenLeiViewPager>
+</LinearLayout>

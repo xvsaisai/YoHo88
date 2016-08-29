@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pinpai_group"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/pinpai_pager_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <RadioGroup
+            android:id="@+id/tab_group"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <RadioButton
+                android:id="@+id/rd_boy"
+                android:text="Boy"
+                style="@style/fenlei_pinlei_tab_radiobutton">
+            </RadioButton>
+
+            <include layout="@layout/fenlei_pinlei_tab_line" />
+
+            <RadioButton
+                android:id="@+id/rd_girl"
+                android:text="Girl"
+                style="@style/fenlei_pinlei_tab_radiobutton">
+            </RadioButton>
+            <include layout="@layout/fenlei_pinlei_tab_line" />
+            <RadioButton
+                android:id="@+id/rd_kid"
+                android:text="Kid"
+                style="@style/fenlei_pinlei_tab_radiobutton">
+            </RadioButton>
+            <include layout="@layout/fenlei_pinlei_tab_line" />
+            <RadioButton
+                android:id="@+id/rd_lifrstyle"
+                android:text="LifeStyle"
+                style="@style/fenlei_pinlei_tab_radiobutton">
+
+            </RadioButton>
+        </RadioGroup>
+        <View
+            android:id="@+id/line"
+            android:layout_below="@+id/tab_group"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#dddddd"/>
+        <com.example.saisai.yoho.view.FenLeiViewPager
+            android:id="@+id/pinpai_pager"
+            android:layout_below="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></com.example.saisai.yoho.view.FenLeiViewPager>
+    </RelativeLayout>
+
+</RelativeLayout>
