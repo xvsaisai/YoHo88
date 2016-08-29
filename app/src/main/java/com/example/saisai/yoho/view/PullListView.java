@@ -71,6 +71,8 @@ public class PullListView extends ListView {
         addFooterView(footView);
 
         //////
+
+        ///
     }
 
     @Override
