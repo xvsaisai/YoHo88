@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.saisai.yoho.activity.SaomiaoActivity">
+<RelativeLayout
+    android:background="#aa3b3b3b"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize">
+    <ImageButton
+        android:onClick="backClick"
+        android:id="@+id/iv_back"
+        android:background="#00000000"
+        android:scaleType="centerCrop"
+        android:layout_centerVertical="true"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/iv_back"/>
+    <TextView
+        android:layout_toRightOf="@+id/iv_back"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#ffffff"
+        android:text="扫描二维码"/>
+</RelativeLayout>
+</RelativeLayout>

@@ -269,9 +269,14 @@ public class MainActivity extends AppCompatActivity {
         sliding.openPane();
     }
     public void shouyeSearch(View view){
-
+        Intent intent=new Intent(this,SearchActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.pinpai_xiangqing_activity_in,R.anim.main_activity_toleft);
     }
     public void shouyeSaomiao(View view){
-        sliding.openPane();
+        Intent intent=new Intent(this,SaomiaoActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.pinpai_xiangqing_activity_in,R.anim.main_activity_toleft);
+
     }
 }
