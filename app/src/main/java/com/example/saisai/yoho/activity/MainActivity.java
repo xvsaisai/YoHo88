@@ -278,5 +278,6 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
         overridePendingTransition(R.anim.pinpai_xiangqing_activity_in,R.anim.main_activity_toleft);
 
+
     }
 }
