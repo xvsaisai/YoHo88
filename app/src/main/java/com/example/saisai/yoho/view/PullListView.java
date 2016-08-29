@@ -69,6 +69,8 @@ public class PullListView extends ListView {
 
         footView.setLayoutParams(footParams);
         addFooterView(footView);
+
+        //////
     }
 
     @Override
