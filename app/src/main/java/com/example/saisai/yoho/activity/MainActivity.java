@@ -263,4 +263,15 @@ public class MainActivity extends AppCompatActivity {
     public void open(View view) {
         sliding.openPane();
     }
+
+
+    public void shouyeOpenNavigetion(View view){
+        sliding.openPane();
+    }
+    public void shouyeSearch(View view){
+
+    }
+    public void shouyeSaomiao(View view){
+        sliding.openPane();
+    }
 }

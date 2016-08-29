@@ -5,17 +5,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.BaseSearchLVAdapter;
 import com.example.saisai.yoho.base.BaseFrament;
+import com.example.saisai.yoho.bean.ShouyeTuiguangBean;
 import com.example.saisai.yoho.model.HttpModel;
 import com.example.saisai.yoho.util.DimensUtils;
 import com.example.saisai.yoho.util.HttpUtils;
 import com.example.saisai.yoho.view.MyBanner;
 import com.example.saisai.yoho.view.PullLoadListView;
+import com.example.saisai.yoho.view.ShouyeGridVIew;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,22 +31,29 @@ import java.util.StringTokenizer;
 /**
  * Created by saisai on 2016/8/23.
  */
-public class ShouyeFragment extends BaseFrament {
+public class ShouyeFragment extends BaseFrament{
 
 
     private PullLoadListView pullLoadListView;
     private BaseAdapter adapter;
+    private MyBanner banner;
+    private ShouyeGridVIew gridView;
+    private ImageButton iv_saomiao;
+    private ImageButton iv_search;
+    private ImageButton iv_navigation;
 
     @Override
     public View initView(LayoutInflater inflater, final ViewGroup container) {
 
        View  inflate =  inflater.inflate(R.layout.fragment_shouye, null);
 
-        MyBanner banner=new MyBanner(activity);
-        AbsListView.LayoutParams bannerParams=new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,DimensUtils.dp2px(200));
-        banner.setLayoutParams(bannerParams);
-        banner.loadData(HttpModel.BANNER,"");
+//        iv_navigation = (ImageButton) inflate.findViewById(R.id.iv_navigation);
+//        iv_search = (ImageButton) inflate.findViewById(R.id.iv_search_shouye);
+//        iv_saomiao = (ImageButton) inflate.findViewById(R.id.iv_saomiao);
 
+        initBanner();
+
+        initGridView();
 
         final List<String> list=new ArrayList<>();
         String[] stringArray = getResources().getStringArray(R.array.navigation_lv_values);
@@ -50,6 +63,7 @@ public class ShouyeFragment extends BaseFrament {
 
         pullLoadListView= (PullLoadListView) inflate.findViewById(R.id.lv_pull_shouye);
         pullLoadListView.addHeadView(banner);
+        pullLoadListView.addHeadView(gridView);
         pullLoadListView.setOnPullOrLoadListener(new PullLoadListView.OnPullOrLoadListener() {
             @Override
             public void pull() {
@@ -95,6 +109,44 @@ public class ShouyeFragment extends BaseFrament {
         return inflate;
     }
 
+    private void initGridView() {
+
+        List<ShouyeTuiguangBean> list=new ArrayList<>();
+        list.add(new ShouyeTuiguangBean("新品到站",R.drawable.btn_cptj));
+        list.add(new ShouyeTuiguangBean("潮流优选",R.drawable.btn_dpzn_n));
+        list.add(new ShouyeTuiguangBean("年中热促",R.drawable.btn_mxcp_n));
+        list.add(new ShouyeTuiguangBean("明星原创",R.drawable.btn_qbpl_n));
+        list.add(new ShouyeTuiguangBean("全部分类",R.drawable.btn_qqyx_n));
+        list.add(new ShouyeTuiguangBean("人气搭配",R.drawable.btn_qxsc_n));
+        list.add(new ShouyeTuiguangBean("领券中心",R.drawable.btn_xpdz_n));
+        list.add(new ShouyeTuiguangBean("全球购",R.drawable.btn_zkjx_n));
+        gridView = new ShouyeGridVIew(activity);
+        gridView.setNumColumns(4);
+        AbsListView.LayoutParams gridParams=new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,AbsListView.LayoutParams.WRAP_CONTENT);
+//        gridView.setPadding(DimensUtils.dp2px(5),DimensUtils.dp2px(5),DimensUtils.dp2px(5),DimensUtils.dp2px(5));
+        gridView.setLayoutParams(gridParams);
+        gridView.setAdapter(new BaseSearchLVAdapter<ShouyeTuiguangBean>(list,activity) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View inflate = View.inflate(activity, R.layout.item_gridview_shouye, null);
+                ImageView iv_gridview= (ImageView) inflate.findViewById(R.id.iv_gridview);
+                TextView tv_gridView= (TextView) inflate.findViewById(R.id.tv_gridview);
+
+                ShouyeTuiguangBean shouyeTuiguangBean = list.get(position);
+                iv_gridview.setImageResource(shouyeTuiguangBean.getResId());
+                tv_gridView.setText(shouyeTuiguangBean.getTitle());
+                return inflate;
+            }
+        });
+    }
+
+    private void initBanner() {
+        banner = new MyBanner(activity);
+        AbsListView.LayoutParams bannerParams=new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT,DimensUtils.dp2px(200));
+        banner.setLayoutParams(bannerParams);
+        banner.loadData(HttpModel.BANNER,"");
+    }
+
     @Override
     public void initData() {
         new HttpUtils().loadData(HttpModel.HOMEPAGER,"").setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
@@ -109,4 +161,5 @@ public class ShouyeFragment extends BaseFrament {
             }
         });
     }
+
 }

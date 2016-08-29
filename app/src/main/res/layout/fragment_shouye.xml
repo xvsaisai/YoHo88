@@ -2,6 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:background="@color/main_toolbar_color"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/iv_navigation"
+            android:onClick="shouyeOpenNavigetion"
+            android:layout_width="40dp"
+            android:background="#00000000"
+            android:layout_centerVertical="true"
+            android:layout_height="40dp"
+            android:src="@drawable/main_tab_men_selecct"
+            />
+        <ImageButton
+            android:id="@+id/iv_search_shouye"
+            android:onClick="shouyeSearch"
+            android:layout_toRightOf="@+id/iv_navigation"
+            android:layout_marginLeft="10dp"
+            android:background="#00000000"
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:src="@drawable/ic_search_black_18dp"/>
+        <ViewFlipper
+            android:id="@+id/flipper_shouye"
+            android:layout_centerInParent="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"></ViewFlipper>
+        <ImageButton
+            android:id="@+id/iv_saomiao"
+            android:onClick="shouyeSaomiao"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="#00000000"
+            android:src="@drawable/iv_saomiao"/>
+    </RelativeLayout>
 <com.example.saisai.yoho.view.PullLoadListView
     android:id="@+id/lv_pull_shouye"
     android:layout_width="match_parent"
