@@ -27,7 +27,7 @@ public class PullLoadListView extends RelativeLayout {
     private LayoutParams headPramas;
     private ImageView footView;
     private LayoutParams footParams;
-    private ListView lv;
+    public ListView lv;
     private LayoutParams lvParams;
     private int headHeight;
     private int footHeight;

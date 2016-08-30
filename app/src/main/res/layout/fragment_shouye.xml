@@ -5,7 +5,7 @@
     <RelativeLayout
         android:background="@color/main_toolbar_color"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="?attr/actionBarSize">
         <ImageButton
             android:id="@+id/iv_navigation"
             android:onClick="shouyeOpenNavigetion"
@@ -28,8 +28,22 @@
         <ViewFlipper
             android:id="@+id/flipper_shouye"
             android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></ViewFlipper>
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/navbar_logo_cn" />
+
+            <ImageView
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/shared_logo1" />
+        </ViewFlipper>
         <ImageButton
             android:id="@+id/iv_saomiao"
             android:onClick="shouyeSaomiao"

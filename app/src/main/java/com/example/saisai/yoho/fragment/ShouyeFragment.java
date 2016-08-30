@@ -1,9 +1,11 @@
 package com.example.saisai.yoho.fragment;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -11,6 +13,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.BaseSearchLVAdapter;
@@ -41,12 +44,18 @@ public class ShouyeFragment extends BaseFrament{
     private ImageButton iv_saomiao;
     private ImageButton iv_search;
     private ImageButton iv_navigation;
+    private ViewFlipper flipper;
 
     @Override
     public View initView(LayoutInflater inflater, final ViewGroup container) {
 
        View  inflate =  inflater.inflate(R.layout.fragment_shouye, null);
 
+        flipper = (ViewFlipper) inflate.findViewById(R.id.flipper_shouye);
+        flipper.setAutoStart(true);//设置自动播放
+        flipper.setInAnimation(AnimationUtils.loadAnimation(activity, R.anim.anim_flipper_in));
+        flipper.setOutAnimation(AnimationUtils.loadAnimation(activity, R.anim.anim_flipper_out));
+//        flipper.setFlipInterval(2000);
 //        iv_navigation = (ImageButton) inflate.findViewById(R.id.iv_navigation);
 //        iv_search = (ImageButton) inflate.findViewById(R.id.iv_search_shouye);
 //        iv_saomiao = (ImageButton) inflate.findViewById(R.id.iv_saomiao);
@@ -62,8 +71,8 @@ public class ShouyeFragment extends BaseFrament{
         list.addAll(Arrays.asList(stringArray));
 
         pullLoadListView= (PullLoadListView) inflate.findViewById(R.id.lv_pull_shouye);
-        pullLoadListView.addHeadView(banner);
-        pullLoadListView.addHeadView(gridView);
+//        pullLoadListView.addHeadView(banner);
+//        pullLoadListView.addHeadView(gridView);
         pullLoadListView.setOnPullOrLoadListener(new PullLoadListView.OnPullOrLoadListener() {
             @Override
             public void pull() {
@@ -105,6 +114,8 @@ public class ShouyeFragment extends BaseFrament{
             }
         };
         pullLoadListView.setAdapter(adapter);
+
+        Log.e("tag", pullLoadListView.lv.getCount() + "=====" + pullLoadListView.lv.getAdapter().getCount());
 
         return inflate;
     }
