@@ -1,5 +1,6 @@
 package com.example.saisai.yoho.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class PinPaiBean {
         this.brand = brand;
     }
 
-    public static class BrandBean {
+    public static class BrandBean implements Serializable {
         private String _id;
         private String name;
         private String value;

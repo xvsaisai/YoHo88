@@ -32,15 +32,14 @@ public class FenleiPinpaiBoyFragment extends FenleiPinpaiBaseFragment {
             public void loadSuccess(String content) {
                 PinPaiBean pinPaiBean = new Gson().fromJson(content, PinPaiBean.class);
                 brand = pinPaiBean.getBrand();
-                Log.e("tag",content);
-
-
+//                Log.e("tag",content);
                 letter = getLetter(brand);
                 Collections.sort(letter);
                 pinpaiParentList = getPinpaiParentList(letter, brand);
                 adapter = new FenleiPinpaiBoyExpandAdapter(pinpaiParentList,activity);
                 expand.setAdapter(adapter);
                 openExpand();
+
                 lvletter.setVisibility(View.VISIBLE);
                 lvletter.setAdapter(new ArrayAdapter<String>(activity, R.layout.item_lv_letter,R.id.letter_item_tv,letter));
 //                pbempty.setVisibility(View.VISIBLE);
@@ -50,7 +49,7 @@ public class FenleiPinpaiBoyFragment extends FenleiPinpaiBaseFragment {
 
             @Override
             public void loadFailed(String msg) {
-                Log.e("tag","msg------------"+msg);
+                Log.e("tag", "Failed------------" + msg);
                 pbempty.setVisibility(View.GONE);
                 tvempty.setVisibility(View.VISIBLE);
                 lvletter.setVisibility(View.GONE);

@@ -109,12 +109,12 @@ public class FenleiPinpaiFragment extends BaseFrament implements View.OnClickLis
         switch (v.getId()){
 
             case R.id.rd_lifrstyle:
-                Log.e("tag","rd_lifrstyle");
+//                Log.e("tag","rd_lifrstyle");
                 pager.setCurrentItem(3,false);
 
                 break;
             case R.id.rd_boy:
-                Log.e("tag","rd_boy");
+//                Log.e("tag","rd_boy");
                 pager.setCurrentItem(0,false);
 
                 break;
@@ -123,7 +123,7 @@ public class FenleiPinpaiFragment extends BaseFrament implements View.OnClickLis
                 pager.setCurrentItem(1,false);
                 break;
             case R.id.rd_kid:
-                Log.e("tag","rd_kid");
+//                Log.e("tag","rd_kid");
                 pager.setCurrentItem(2,false);
                 break;
         }

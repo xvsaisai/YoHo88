@@ -77,4 +77,9 @@ public class FenleiPinpaiBoyExpandAdapter extends FenleiPinpaiBaseExpandAdapter<
         TextView textView;
         ImageView imageView;
     }
+
+    @Override
+    public boolean isChildSelectable(int groupPosition, int childPosition) {
+        return true;
+    }
 }

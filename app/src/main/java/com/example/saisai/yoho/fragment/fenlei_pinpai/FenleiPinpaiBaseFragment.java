@@ -1,6 +1,8 @@
 package com.example.saisai.yoho.fragment.fenlei_pinpai;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,8 +15,10 @@ import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.saisai.yoho.R;
+import com.example.saisai.yoho.activity.PinPaiXiangqingActivity;
 import com.example.saisai.yoho.adapter.fenlei_pinpai.FenleiPinpaiBoyExpandAdapter;
 import com.example.saisai.yoho.base.BaseFrament;
 import com.example.saisai.yoho.bean.PinPaiBean;
@@ -64,8 +68,7 @@ public abstract class FenleiPinpaiBaseFragment extends BaseFrament {
     public View initView(LayoutInflater inflater, ViewGroup container) {
 
 
-
-        View inflate = inflater.inflate(R.layout.fragment_fenlei_pinpai_child, null);
+        final View inflate = inflater.inflate(R.layout.fragment_fenlei_pinpai_child, null);
 
 
 
@@ -74,7 +77,19 @@ public abstract class FenleiPinpaiBaseFragment extends BaseFrament {
         this.pbempty = (ProgressBar) inflate.findViewById(R.id.pb_empty);
         this.tvempty = (TextView) inflate.findViewById(R.id.tv_empty);
         this.expand = (ExpandableListView) inflate.findViewById(R.id.expand);
+        expand.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+            @Override
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
 
+//                Toast.makeText(activity,pinpaiParentList.get(groupPosition).getList().get(childPosition).getName(),Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(activity, PinPaiXiangqingActivity.class);
+                PinPaiBean.BrandBean brandBean = pinpaiParentList.get(groupPosition).getList().get(childPosition);
+                intent.putExtra("data", brandBean);
+                startActivity(intent);
+                activity.overridePendingTransition(R.anim.pinpai_xiangqing_activity_in, R.anim.main_activity_toleft);
+                return true;
+            }
+        });
         lvletter = (ListView) inflate.findViewById(R.id.lv_letter);
         lvletter.setDividerHeight(0);
         lvletter.setOnTouchListener(new View.OnTouchListener() {
@@ -137,7 +152,7 @@ public abstract class FenleiPinpaiBaseFragment extends BaseFrament {
                     list.add(brand.get(i));
                 }
                 EventBus.getDefault().post(new RemoveAddSearchViewEvent<PinPaiBean.BrandBean>(0,brand,list));
-                return true;
+                return false;
             }
         });
         ExpandableListView.LayoutParams layoutParams = new ExpandableListView.LayoutParams(ExpandableListView.LayoutParams.MATCH_PARENT, DimensUtils.dp2px(70));

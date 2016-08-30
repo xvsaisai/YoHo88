@@ -17,7 +17,9 @@ import android.widget.ViewFlipper;
 
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.BaseSearchLVAdapter;
+import com.example.saisai.yoho.adapter.HomeListAdapter;
 import com.example.saisai.yoho.base.BaseFrament;
+import com.example.saisai.yoho.bean.HomeBean;
 import com.example.saisai.yoho.bean.ShouyeTuiguangBean;
 import com.example.saisai.yoho.model.HttpModel;
 import com.example.saisai.yoho.util.DimensUtils;
@@ -25,7 +27,10 @@ import com.example.saisai.yoho.util.HttpUtils;
 import com.example.saisai.yoho.view.MyBanner;
 import com.example.saisai.yoho.view.PullLoadListView;
 import com.example.saisai.yoho.view.ShouyeGridVIew;
+import com.google.gson.Gson;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,13 +43,14 @@ public class ShouyeFragment extends BaseFrament{
 
 
     private PullLoadListView pullLoadListView;
-    private BaseAdapter adapter;
     private MyBanner banner;
     private ShouyeGridVIew gridView;
     private ImageButton iv_saomiao;
     private ImageButton iv_search;
     private ImageButton iv_navigation;
     private ViewFlipper flipper;
+    private HomeListAdapter adapter;
+    private List<List<HomeBean.BrandBean>> homeList;
 
     @Override
     public View initView(LayoutInflater inflater, final ViewGroup container) {
@@ -55,11 +61,6 @@ public class ShouyeFragment extends BaseFrament{
         flipper.setAutoStart(true);//设置自动播放
         flipper.setInAnimation(AnimationUtils.loadAnimation(activity, R.anim.anim_flipper_in));
         flipper.setOutAnimation(AnimationUtils.loadAnimation(activity, R.anim.anim_flipper_out));
-//        flipper.setFlipInterval(2000);
-//        iv_navigation = (ImageButton) inflate.findViewById(R.id.iv_navigation);
-//        iv_search = (ImageButton) inflate.findViewById(R.id.iv_search_shouye);
-//        iv_saomiao = (ImageButton) inflate.findViewById(R.id.iv_saomiao);
-
         initBanner();
 
         initGridView();
@@ -71,20 +72,39 @@ public class ShouyeFragment extends BaseFrament{
         list.addAll(Arrays.asList(stringArray));
 
         pullLoadListView= (PullLoadListView) inflate.findViewById(R.id.lv_pull_shouye);
-//        pullLoadListView.addHeadView(banner);
-//        pullLoadListView.addHeadView(gridView);
+        pullLoadListView.addHeadView(banner);
+        pullLoadListView.addHeadView(gridView);
         pullLoadListView.setOnPullOrLoadListener(new PullLoadListView.OnPullOrLoadListener() {
             @Override
             public void pull() {
 
-                new android.os.Handler().postDelayed(new Runnable() {
+                new HttpUtils().loadData(HttpModel.HOMEPAGER, "parames={\\\"shop\\\":\\\"1\\\"}").setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
+
                     @Override
-                    public void run() {
-                        list.add(0,"头部数据");
+                    public void loadSuccess(String content) {
+
+                        HomeBean homeBean = new Gson().fromJson(content, HomeBean.class);
+                        List<List<HomeBean.BrandBean>> temp = new ArrayList<List<HomeBean.BrandBean>>();
+                        temp.add(homeBean.getAccessories());
+                        temp.add(homeBean.getBrand());
+                        temp.add(homeBean.getMen());
+                        temp.add(homeBean.getMenpants());
+                        temp.add(homeBean.getOther());
+                        homeList.clear();
+                        homeList.addAll(temp);
+
                         adapter.notifyDataSetChanged();
                         pullLoadListView.pullSuccess();
                     }
-                },3000);
+
+                    @Override
+                    public void loadFailed(String msg) {
+                        Log.e("tag", "Failed-----" + msg);
+                    }
+                });
+                adapter.notifyDataSetChanged();
+
+                pullLoadListView.pullSuccess();
 
             }
 
@@ -102,20 +122,7 @@ public class ShouyeFragment extends BaseFrament{
             }
         });
 
-        adapter = new BaseSearchLVAdapter<String>(list,activity) {
-            @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
 
-                TextView tv=new TextView(getContext());
-                tv.setText(list.get(position));
-                tv.setHeight(DimensUtils.dp2px(30));
-                tv.setGravity(Gravity.CENTER);
-                return tv;
-            }
-        };
-        pullLoadListView.setAdapter(adapter);
-
-        Log.e("tag", pullLoadListView.lv.getCount() + "=====" + pullLoadListView.lv.getAdapter().getCount());
 
         return inflate;
     }
@@ -160,15 +167,25 @@ public class ShouyeFragment extends BaseFrament{
 
     @Override
     public void initData() {
-        new HttpUtils().loadData(HttpModel.HOMEPAGER,"").setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
+        new HttpUtils().loadData(HttpModel.HOMEPAGER, "parames={\\\"shop\\\":\\\"1\\\"}").setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
+
             @Override
             public void loadSuccess(String content) {
 
+                HomeBean homeBean = new Gson().fromJson(content, HomeBean.class);
+                homeList = new ArrayList<List<HomeBean.BrandBean>>();
+                homeList.add(homeBean.getAccessories());
+                homeList.add(homeBean.getBrand());
+                homeList.add(homeBean.getMen());
+                homeList.add(homeBean.getMenpants());
+                homeList.add(homeBean.getOther());
+                adapter = new HomeListAdapter(homeList, activity);
+                pullLoadListView.setAdapter(adapter);
             }
 
             @Override
             public void loadFailed(String msg) {
-
+                Log.e("tag", "Failed-----" + msg);
             }
         });
     }

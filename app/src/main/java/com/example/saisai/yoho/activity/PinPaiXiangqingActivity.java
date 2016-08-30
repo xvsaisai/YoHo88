@@ -177,7 +177,7 @@ public class PinPaiXiangqingActivity extends BaseActivity {
     }
 
     public void backClick(View view) {
-        finish();
+        onBackPressed();
         overridePendingTransition(R.anim.main_pinpai_xiangqing_activity_in, R.anim.pinpai_xiangqing_activity_out);
     }
 

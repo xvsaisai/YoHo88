@@ -52,13 +52,13 @@ public class FenleiPinleiLifeStyleFragment extends FenleiPinleiBaseFrament {
                 childList.addAll(temp);
                 childLVAdapter.notifyDataSetChanged();
 
-                Log.e("tag",temp.toString());
+//                Log.e("tag",temp.toString());
             }
 
             @Override
             public void loadFailed(String msg) {
 
-                Log.e("tag",msg);
+                Log.e("tag", "Failed----" + msg);
 
             }
         });

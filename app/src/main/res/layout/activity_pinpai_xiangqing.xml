@@ -81,7 +81,6 @@
     </ScrollView>
     <RelativeLayout
         android:id="@+id/toolbar"
-        android:onClick="backClick"
         android:layout_alignParentTop="true"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -89,6 +88,7 @@
         android:padding="10dp">
         <ImageView
             android:id="@+id/iv_back"
+            android:onClick="backClick"
             android:layout_width="30dp"
             android:layout_height="50dp"
             android:layout_centerVertical="true"

@@ -33,7 +33,7 @@ public class FenleiPinpaiKidFragment extends FenleiPinpaiBaseFragment {
             public void loadSuccess(String content) {
                 PinPaiBean pinPaiBean = new Gson().fromJson(content, PinPaiBean.class);
                 brand = pinPaiBean.getBrand();
-                Log.e("tag",content);
+//                Log.e("tag",content);
 
 
                 letter = getLetter(brand);
@@ -51,7 +51,7 @@ public class FenleiPinpaiKidFragment extends FenleiPinpaiBaseFragment {
 
             @Override
             public void loadFailed(String msg) {
-                Log.e("tag","msg------------"+msg);
+                Log.e("tag", "Failed------" + msg);
                 pbempty.setVisibility(View.GONE);
                 tvempty.setVisibility(View.VISIBLE);
                 lvletter.setVisibility(View.GONE);

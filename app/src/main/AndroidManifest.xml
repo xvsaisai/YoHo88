@@ -35,7 +35,7 @@
         <!-- <activity android:name=".MainActivity" -->
         <!-- android:launchMode="singleTop"></activity> -->
         <activity android:name=".activity.GouWuCheActivity" />
-        <!-- <activity android:name=".activity.PinPaiXiangqingActivity"/> -->
+        <activity android:name=".activity.PinPaiXiangqingActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SaomiaoActivity"></activity>
     </application>
