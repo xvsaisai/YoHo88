@@ -4,13 +4,19 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -19,9 +25,10 @@ import android.widget.Toast;
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.FenLeiPagerAdapter;
 import com.example.saisai.yoho.base.BaseAnimatorListener;
+import com.example.saisai.yoho.bean.PinPaiBean;
 import com.example.saisai.yoho.fragment.GuangFragment;
-import com.example.saisai.yoho.fragment.ShouyeFragment;
 import com.example.saisai.yoho.fragment.WodeFragment;
+import com.example.saisai.yoho.view.SlidingMenu;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,6 +65,20 @@ public class PinPaiXiangqingActivity extends BaseActivity {
     TextView tvContent;
     @Bind(R.id.jianjie)
     ScrollView jianjie;
+    @Bind(R.id.pinpai_zhanshi)
+    RelativeLayout pinpaiZhanshi;
+    @Bind(R.id.pinpai_menu_lv)
+    ListView pinpaiMenuLv;
+    @Bind(R.id.pinpai_select)
+    RelativeLayout pinpaiSelect;
+    @Bind(R.id.pinpai_drawer)
+    SlidingMenu pinpaiDrawer;
+    @Bind(R.id.btn_clear)
+    Button btnClear;
+    @Bind(R.id.btn_com)
+    Button btnCom;
+    @Bind(R.id.mubu)
+    View mubu;
     private ObjectAnimator animatorIn;
     private ObjectAnimator animatorOut;
     private int y;
@@ -65,12 +86,20 @@ public class PinPaiXiangqingActivity extends BaseActivity {
     private List<Fragment> list;
     private List<String> listTitles;
     private FenLeiPagerAdapter pagerAdapter;
+    private PinPaiBean.BrandBean brandBean;
+    private NavigationView navigationView;
+    private DrawerLayout drawerLayout;
+    private ObjectAnimator openMenuAnim;
+    private FrameLayout.LayoutParams pinpaiParams;
+    private PopupWindow popupWindow;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pinpai_xiangqing);
         ButterKnife.bind(this);
+        brandBean = (PinPaiBean.BrandBean) getIntent().getSerializableExtra("data");
+
         ivIndicator.setBackgroundResource(R.drawable.zhanshi);
 
         initTab();
@@ -78,7 +107,37 @@ public class PinPaiXiangqingActivity extends BaseActivity {
         initAdapter();
         initJianJie();
         initAnimator();
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(PinPaiXiangqingActivity.this, "清空", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btnCom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mubu.setVisibility(View.GONE);
+                openMenuAnim.setFloatValues(-width / 5 * 4, 0);
+                openMenuAnim.start();
+            }
+        });
+
+//        pinpaiParams = (SlidingMenu.LayoutParams) pinpaiZhanshi.getLayoutParams();
+        mubu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (pinpaiZhanshi.getTranslationX() == -width / 5 * 4) {
+                    mubu.setVisibility(View.GONE);
+                    openMenuAnim.setFloatValues(-width / 5 * 4, 0);
+                    openMenuAnim.start();
+
+                }
+            }
+        });
+
     }
+
 
     private void initTab() {
 
@@ -121,7 +180,7 @@ public class PinPaiXiangqingActivity extends BaseActivity {
 
     private void initAdapter() {
 
-        pagerAdapter = new FenLeiPagerAdapter(getSupportFragmentManager(),list,listTitles);
+        pagerAdapter = new FenLeiPagerAdapter(getSupportFragmentManager(), list, listTitles);
         pager.setAdapter(pagerAdapter);
 //        tablayout.setupWithViewPager(pager);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tablayout));
@@ -131,7 +190,7 @@ public class PinPaiXiangqingActivity extends BaseActivity {
     private void initData() {
 
         list = new ArrayList<>();
-        list.add(new ShouyeFragment());
+        list.add(new WodeFragment());
         list.add(new GuangFragment());
         list.add(new WodeFragment());
         listTitles = new ArrayList<>();
@@ -147,7 +206,7 @@ public class PinPaiXiangqingActivity extends BaseActivity {
             public void run() {
                 toolbarHeight = toolbar.getHeight();
                 y = PinPaiXiangqingActivity.this.height - toolbarHeight;
-                RelativeLayout.LayoutParams layoutParams=new RelativeLayout.LayoutParams(width,y);
+                RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(width, y);
                 jianjie.setLayoutParams(layoutParams);
                 jianjie.setTranslationY(-y);
             }
@@ -156,24 +215,27 @@ public class PinPaiXiangqingActivity extends BaseActivity {
 
     private void initAnimator() {
 
-        animatorIn = ObjectAnimator.ofFloat(jianjie,"translationY",0,0);
+        animatorIn = ObjectAnimator.ofFloat(jianjie, "translationY", 0, 0);
         animatorIn.setDuration(1000);
-        animatorIn.addListener(new BaseAnimatorListener(){
+        animatorIn.addListener(new BaseAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 super.onAnimationEnd(animator);
-                isRun=false;
+                isRun = false;
             }
         });
-        animatorOut = ObjectAnimator.ofFloat(jianjie,"translationY",0,0);
+        animatorOut = ObjectAnimator.ofFloat(jianjie, "translationY", 0, 0);
         animatorOut.setDuration(1000);
-        animatorOut.addListener(new BaseAnimatorListener(){
+        animatorOut.addListener(new BaseAnimatorListener() {
             @Override
             public void onAnimationEnd(Animator animator) {
                 super.onAnimationEnd(animator);
-                isRun=false;
+                isRun = false;
             }
         });
+
+        openMenuAnim = ObjectAnimator.ofFloat(pinpaiZhanshi, "translationX", 0, 0);
+        openMenuAnim.setDuration(1000);
     }
 
     public void backClick(View view) {
@@ -181,44 +243,54 @@ public class PinPaiXiangqingActivity extends BaseActivity {
         overridePendingTransition(R.anim.main_pinpai_xiangqing_activity_in, R.anim.pinpai_xiangqing_activity_out);
     }
 
-    public void shoucangClick(View view){
-        Toast.makeText(this,"收藏",Toast.LENGTH_SHORT).show();
+    public void shoucangClick(View view) {
+        Toast.makeText(this, "收藏", Toast.LENGTH_SHORT).show();
     }
 
-    public void fenxiangClick(View view){
-        Toast.makeText(this,"分享",Toast.LENGTH_SHORT).show();
+    public void fenxiangClick(View view) {
+        Toast.makeText(this, "分享", Toast.LENGTH_SHORT).show();
     }
 
     int clickCount = 0;
-    boolean isRun=false;
+    boolean isRun = false;
 
     public void jianjieOnclick(View view) {
-        if(!isRun){
+        if (!isRun) {
 
-            isRun=true;
+            isRun = true;
             if (clickCount % 2 == 0) {//展示
                 ivIndicator.setBackgroundResource(R.drawable.shouqi);
                 showJianJie();
+
             } else {//收起
                 ivIndicator.setBackgroundResource(R.drawable.zhanshi);
                 shouqiJianJie();
+
             }
             clickCount++;
         }
+
 
     }
 
     //收起
     private void shouqiJianJie() {
-        animatorOut.setFloatValues(toolbarHeight,-y);
+        animatorOut.setFloatValues(toolbarHeight, -y);
         animatorOut.start();
     }
 
     //展示
     private void showJianJie() {
 
-        animatorIn.setFloatValues(-y,toolbarHeight);
+        animatorIn.setFloatValues(-y, toolbarHeight);
         animatorIn.start();
+    }
+
+    //筛选
+    public void shaxuanClick(View view) {
+        mubu.setVisibility(View.VISIBLE);
+        openMenuAnim.setFloatValues(0, -width / 5 * 4);
+        openMenuAnim.start();
     }
 
     @Override

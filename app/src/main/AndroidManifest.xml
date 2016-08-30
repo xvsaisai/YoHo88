@@ -17,7 +17,7 @@
         <!-- <activity android:name=".SplashActivity"> -->
         <!-- <activity android:name=".ChooseActivity"> -->
         <activity
-            android:name=".activity.MainActivity"
+            android:name=".activity.PinPaiXiangqingActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden">
@@ -35,7 +35,7 @@
         <!-- <activity android:name=".MainActivity" -->
         <!-- android:launchMode="singleTop"></activity> -->
         <activity android:name=".activity.GouWuCheActivity" />
-        <activity android:name=".activity.PinPaiXiangqingActivity" />
+        <!--<activity android:name=".activity.PinPaiXiangqingActivity" />-->
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SaomiaoActivity"></activity>
     </application>

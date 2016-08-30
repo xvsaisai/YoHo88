@@ -33,4 +33,9 @@
         <attr name="redDotBGColor" format="color"/>
         <attr name="redDotTextColor" format="color"/>
     </declare-styleable>
+
+    <style name="pop">
+        <item name="android:windowEnterAnimation">@anim/pop_tran_in</item>
+        <item name="android:windowExitAnimation">@anim/pop_tran_out</item>
+    </style>
 </resources>
