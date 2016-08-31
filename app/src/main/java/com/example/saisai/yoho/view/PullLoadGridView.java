@@ -103,6 +103,18 @@ public class PullLoadGridView extends RelativeLayout {
         gv.smoothScrollToPosition(position);
     }
 
+    boolean isDownUsable = true;
+
+    public void setPullDownUsable(boolean downUsable) {
+        this.isDownUsable = downUsable;
+    }
+
+    boolean isUpUsable = true;
+
+    public void setPullUpUsable(boolean upUsable) {
+        this.isUpUsable = upUsable;
+    }
+
     public interface OnScrollListener {
         void onScrollStateChanged(AbsListView view, int scrollState);
 
@@ -128,7 +140,7 @@ public class PullLoadGridView extends RelativeLayout {
 
                 float moveY = ev.getRawY() - rawY;
 //
-                if (moveY > 0 && gv.getFirstVisiblePosition() == 0 && gv.getTop() >= 0) {
+                if (isDownUsable && moveY > 0 && gv.getFirstVisiblePosition() == 0 && gv.getTop() >= 0) {
                     rawY = ev.getRawY();
                     return true;
                 }
@@ -136,7 +148,7 @@ public class PullLoadGridView extends RelativeLayout {
                 int firstVisiblePosition = gv.getFirstVisiblePosition();
 
 //                MyLog.log("tag",lastVisiblePosition+"==============lastVisiblePosition");
-                if (moveY < 0 && gv.getLastVisiblePosition() == gv.getAdapter().getCount() - 1 && gv.getChildAt(gv.getAdapter().getCount() - firstVisiblePosition - 1).getBottom() <= gv.getHeight()) {
+                if (isUpUsable && moveY < 0 && gv.getLastVisiblePosition() == gv.getAdapter().getCount() - 1 && gv.getChildAt(gv.getAdapter().getCount() - firstVisiblePosition - 1).getBottom() <= gv.getHeight()) {
                     return true;
                 }
                 break;
@@ -158,7 +170,7 @@ public class PullLoadGridView extends RelativeLayout {
             case MotionEvent.ACTION_MOVE:
 
                 float moveY = event.getRawY() - rawY;
-                if (moveY > 0 && gv.getFirstVisiblePosition() == 0 && gv.getTop() >= 0) {
+                if (isDownUsable & moveY > 0 && gv.getFirstVisiblePosition() == 0 && gv.getTop() >= 0) {
 
                     headParams.topMargin = (int) (-headHeight + moveY);
                     headView.setLayoutParams(headParams);
@@ -167,7 +179,7 @@ public class PullLoadGridView extends RelativeLayout {
                 int firstVisiblePosition = gv.getFirstVisiblePosition();
 //                MyLog.m(gv.getChildAt(gv.getAdapter().getCount()-firstVisiblePosition-1).getBottom()+"===="+gv.getHeight()+"");
 
-                if (moveY < 0 && gv.getLastVisiblePosition() == gv.getAdapter().getCount() - 1) {
+                if (isUpUsable && moveY < 0 && gv.getLastVisiblePosition() == gv.getAdapter().getCount() - 1) {
                     footParams.bottomMargin = (int) (-footHeight - moveY);
                     footView.setLayoutParams(footParams);
                     gvParams.topMargin = (int) moveY;

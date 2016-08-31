@@ -86,7 +86,7 @@ public class ZhekouFragment extends PinpaiXiangqingBaseFragment implements PullL
             }
         };
         gv.setAdapter(adapter);
-
+        gv.setPullDownUsable(false);
         loadData();
     }
 

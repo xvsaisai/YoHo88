@@ -84,7 +84,7 @@ public class ZuixinFragment extends PinpaiXiangqingBaseFragment implements PullL
             }
         };
         gv.setAdapter(adapter);
-
+        gv.setPullDownUsable(false);
         loadData();
     }
 

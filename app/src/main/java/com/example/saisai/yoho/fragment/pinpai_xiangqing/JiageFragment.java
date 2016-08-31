@@ -87,7 +87,7 @@ public class JiageFragment extends PinpaiXiangqingBaseFragment implements PullLo
             }
         };
         gv.setAdapter(adapter);
-
+        gv.setPullDownUsable(false);
         loadData();
     }
 
