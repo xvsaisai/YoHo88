@@ -94,6 +94,14 @@ public class PullLoadGridView extends RelativeLayout {
         gv.setAdapter(adapter);
     }
 
+    public void setNumColumns(int num) {
+        gv.setNumColumns(num);
+    }
+
+    public void setSelection(int position) {
+//        gv.setSelection(position);
+        gv.smoothScrollToPosition(position);
+    }
 
     public interface OnScrollListener {
         void onScrollStateChanged(AbsListView view, int scrollState);

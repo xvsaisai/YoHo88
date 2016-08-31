@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -118,6 +120,42 @@ public class ZhekouFragment extends PinpaiXiangqingBaseFragment implements PullL
         });
 
     }
+
+    public void jiangxvData() {
+        Collections.sort(list, new Comparator<FenleiGuanzhuBean.DataBean.ListBean.ProductBean>() {
+            @Override
+            public int compare(FenleiGuanzhuBean.DataBean.ListBean.ProductBean lhs, FenleiGuanzhuBean.DataBean.ListBean.ProductBean rhs) {
+
+                float i = (float) (rhs.getSale_price() * 1.0 / rhs.getMarket_price() - lhs.getSale_price() * 1.0 / lhs.getMarket_price());
+                if (i > 0)
+                    return 1;
+                else if (i < 0)
+                    return -1;
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
+        gv.setSelection(0);
+    }
+
+    public void shengxvData() {
+        Collections.sort(list, new Comparator<FenleiGuanzhuBean.DataBean.ListBean.ProductBean>() {
+            @Override
+            public int compare(FenleiGuanzhuBean.DataBean.ListBean.ProductBean lhs, FenleiGuanzhuBean.DataBean.ListBean.ProductBean rhs) {
+
+                float i = (float) (lhs.getSale_price() * 1.0 / lhs.getMarket_price() - rhs.getSale_price() * 1.0 / rhs.getMarket_price());
+                if (i > 0)
+                    return 1;
+                else if (i < 0)
+                    return -1;
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
+        gv.setSelection(0);
+    }
+
+
 
     @Override
     public void pullDown() {

@@ -17,7 +17,7 @@
         <!-- <activity android:name=".SplashActivity"> -->
         <!-- <activity android:name=".ChooseActivity"> -->
         <activity
-            android:name=".activity.GoodsXiangqingActivity"
+            android:name=".activity.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:launchMode="singleTop"
             android:windowSoftInputMode="adjustPan|stateHidden">
@@ -38,7 +38,7 @@
         <activity android:name=".activity.PinPaiXiangqingActivity" />
         <activity android:name=".activity.SearchActivity" />
         <activity android:name=".activity.SaomiaoActivity" />
-        <!--<activity android:name=".activity.GoodsXiangqingActivity"></activity>-->
+        <activity android:name=".activity.GoodsXiangqingActivity"></activity>
     </application>
 
 </manifest>

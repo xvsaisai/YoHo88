@@ -18,6 +18,8 @@ import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -118,6 +120,40 @@ public class JiageFragment extends PinpaiXiangqingBaseFragment implements PullLo
             }
         });
 
+    }
+
+    public void shengxvData() {
+        Collections.sort(list, new Comparator<FenleiGuanzhuBean.DataBean.ListBean.ProductBean>() {
+            @Override
+            public int compare(FenleiGuanzhuBean.DataBean.ListBean.ProductBean lhs, FenleiGuanzhuBean.DataBean.ListBean.ProductBean rhs) {
+
+                int i = lhs.getSale_price() - rhs.getSale_price();
+                if (i > 0)
+                    return 1;
+                else if (i < 0)
+                    return -1;
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
+        gv.setSelection(0);
+    }
+
+    public void jiangxvData() {
+        Collections.sort(list, new Comparator<FenleiGuanzhuBean.DataBean.ListBean.ProductBean>() {
+            @Override
+            public int compare(FenleiGuanzhuBean.DataBean.ListBean.ProductBean lhs, FenleiGuanzhuBean.DataBean.ListBean.ProductBean rhs) {
+
+                int i = rhs.getSale_price() - lhs.getSale_price();
+                if (i > 0)
+                    return 1;
+                else if (i < 0)
+                    return -1;
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
+        gv.setSelection(0);
     }
 
     @Override

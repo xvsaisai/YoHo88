@@ -92,6 +92,8 @@ public class PinPaiXiangqingActivity extends BaseActivity {
     private ObjectAnimator openMenuAnim;
     private FrameLayout.LayoutParams pinpaiParams;
     private PopupWindow popupWindow;
+    private JiageFragment jiageFragment;
+    private ZhekouFragment zhekouFragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -139,6 +141,9 @@ public class PinPaiXiangqingActivity extends BaseActivity {
     }
 
 
+    int tabCurrentPosition = -1;
+    int flagJiage = 0;
+    int flagZhekou = 0;
     private void initTab() {
 
         tablayout.setSmoothScrollingEnabled(true);
@@ -150,6 +155,7 @@ public class PinPaiXiangqingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 pager.setCurrentItem(0);
+                tabCurrentPosition = 0;
             }
         });
         tab.setCustomView(view);
@@ -160,6 +166,15 @@ public class PinPaiXiangqingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 pager.setCurrentItem(1);
+                if (tabCurrentPosition == 1) {//再次点击当前页面时候才排序
+                    if (flagJiage % 2 == 0) {//升序
+                        jiageFragment.shengxvData();
+                    } else {//降序
+                        jiageFragment.jiangxvData();
+                    }
+                    flagJiage++;
+                }
+                tabCurrentPosition = 1;
             }
         });
         TabLayout.Tab tab2 = tablayout.newTab();
@@ -170,6 +185,15 @@ public class PinPaiXiangqingActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 pager.setCurrentItem(2);
+                if (tabCurrentPosition == 2) {//再次点击当前页面时候才排序
+                    if (flagZhekou % 2 == 0) {//正序
+                        zhekouFragment.shengxvData();
+                    } else {//倒叙
+                        zhekouFragment.jiangxvData();
+                    }
+                    flagZhekou++;
+                }
+                tabCurrentPosition = 2;
             }
         });
         TabLayout.Tab tab3 = tablayout.newTab();
@@ -185,14 +209,17 @@ public class PinPaiXiangqingActivity extends BaseActivity {
 //        tablayout.setupWithViewPager(pager);
         pager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tablayout));
         tablayout.setOnTabSelectedListener(new TabLayout.ViewPagerOnTabSelectedListener(pager));
+        pager.setOffscreenPageLimit(list.size());
     }
 
     private void initData() {
 
         list = new ArrayList<>();
         list.add(new ZuixinFragment());
-        list.add(new JiageFragment());
-        list.add(new ZhekouFragment());
+        jiageFragment = new JiageFragment();
+        list.add(jiageFragment);
+        zhekouFragment = new ZhekouFragment();
+        list.add(zhekouFragment);
         listTitles = new ArrayList<>();
         listTitles.add("最新");
         listTitles.add("价格");
