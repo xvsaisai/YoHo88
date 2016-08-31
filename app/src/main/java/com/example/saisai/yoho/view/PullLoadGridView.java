@@ -1,6 +1,7 @@
 package com.example.saisai.yoho.view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.AbsListView;
@@ -90,39 +91,51 @@ public class PullLoadGridView extends RelativeLayout {
         });
     }
 
+    //设置适配器
     public void setAdapter(BaseAdapter adapter) {
         gv.setAdapter(adapter);
     }
 
+    //设置列数
     public void setNumColumns(int num) {
         gv.setNumColumns(num);
     }
 
+    //设置滚动到的position
     public void setSelection(int position) {
-//        gv.setSelection(position);
         gv.smoothScrollToPosition(position);
     }
 
+    //设置item点击时候的状态
+    public void setSelector(Drawable drawable) {
+        if (drawable == null)
+            throw new RuntimeException(getClass().getSimpleName() + "====设置的背景选择器不能为null");
+        gv.setSelector(drawable);
+    }
+
+    //下拉刷新是否可用
     boolean isDownUsable = true;
 
+    //设置是否启用下拉刷新，默认启用
     public void setPullDownUsable(boolean downUsable) {
         this.isDownUsable = downUsable;
     }
 
+    //上拉加载是否可用
     boolean isUpUsable = true;
 
+    //设置是否启用上拉加载，默认启用
     public void setPullUpUsable(boolean upUsable) {
         this.isUpUsable = upUsable;
     }
 
+    //滚动监听
     public interface OnScrollListener {
         void onScrollStateChanged(AbsListView view, int scrollState);
 
         void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
     }
-
     private OnScrollListener onScrollListener;
-
     public void setOnScrollListener(OnScrollListener onScrollListener) {
         this.onScrollListener = onScrollListener;
     }
@@ -223,27 +236,26 @@ public class PullLoadGridView extends RelativeLayout {
     }
 
 
+    //下拉刷新监听
     public interface OnPullDownListener {
         void pullDown();
     }
-
     private OnPullDownListener onPullDownListener;
-
     public void setOnPullDownListener(OnPullDownListener onPullDownListener) {
         this.onPullDownListener = onPullDownListener;
     }
 
+    //上拉加载监听
     public interface OnPullUpListener {
         void pullUp();
     }
-
     private OnPullUpListener onPullUpListener;
-
     public void setOnPullUpListener(OnPullUpListener onPullUpListener) {
         this.onPullUpListener = onPullUpListener;
     }
 
 
+    //下拉刷新成功
     public void pullDownSuccess() {
 
         headView.setImageResource(R.drawable.icon_loaing_frame_1);
@@ -251,6 +263,7 @@ public class PullLoadGridView extends RelativeLayout {
         headView.setLayoutParams(headParams);
     }
 
+    //上拉加载成功
     public void pullUpSuccess() {
         footView.setImageResource(R.drawable.icon_loaing_frame_1);
         footParams.bottomMargin = -footHeight;

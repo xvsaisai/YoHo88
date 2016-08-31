@@ -1,5 +1,6 @@
 package com.example.saisai.yoho.fragment.pinpai_xiangqing;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -41,6 +42,8 @@ public class ZhekouFragment extends PinpaiXiangqingBaseFragment implements PullL
         gv.setOnPullDownListener(this);
         gv.setOnPullUpListener(this);
         gv.setOnScrollListener(this);
+        gv.setSelector(new BitmapDrawable());
+
     }
 
     public boolean isDrag;

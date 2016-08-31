@@ -1,5 +1,6 @@
 package com.example.saisai.yoho.fragment.pinpai_xiangqing;
 
+import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
@@ -85,6 +86,7 @@ public class ZuixinFragment extends PinpaiXiangqingBaseFragment implements PullL
         };
         gv.setAdapter(adapter);
         gv.setPullDownUsable(false);
+        gv.setSelector(new BitmapDrawable());
         loadData();
     }
 

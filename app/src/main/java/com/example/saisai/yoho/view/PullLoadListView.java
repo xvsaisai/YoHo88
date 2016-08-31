@@ -1,6 +1,7 @@
 package com.example.saisai.yoho.view;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -106,6 +107,13 @@ public class PullLoadListView extends RelativeLayout {
         lv.addFooterView(foot);
     }
 
+    //设置item点击时候的状态
+    public void setSelector(Drawable drawable) {
+        if (drawable == null)
+            throw new RuntimeException(getClass().getSimpleName() + "====设置的背景选择器不能为null");
+        lv.setSelector(drawable);
+    }
+
     public int getFirstVisibilePosition(){
         return lv.getFirstVisiblePosition();
     }
@@ -115,24 +123,19 @@ public class PullLoadListView extends RelativeLayout {
 
     public interface OnScrollListener {
         void onScrollStateChanged(AbsListView view, int scrollState);
-
         void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
     }
-
     private OnScrollListener onScrollListener;
-
     public void setOnScrollListener(OnScrollListener onScrollListener) {
         this.onScrollListener = onScrollListener;
     }
 
     boolean isDownUsable = true;
-
     public void setPullDownUsable(boolean downUsable) {
         this.isDownUsable = downUsable;
     }
 
     boolean isUpUsable = true;
-
     public void setPullUpUsable(boolean upUsable) {
         this.isUpUsable = upUsable;
     }
