@@ -1,49 +1,35 @@
 package com.example.saisai.yoho.fragment;
 
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ExpandableListView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-import com.example.saisai.yoho.MyAdapter;
 import com.example.saisai.yoho.R;
-import com.example.saisai.yoho.adapter.FenLeiPagerAdapter;
 import com.example.saisai.yoho.adapter.FenleiPinleiPagerAdapter;
 import com.example.saisai.yoho.adapter.fenlei_pinpai.FenleiPinpaiBoyExpandAdapter;
 import com.example.saisai.yoho.base.BaseFrament;
-import com.example.saisai.yoho.bean.PinPaiBean;
 import com.example.saisai.yoho.bean.PinPaiParentBean;
 import com.example.saisai.yoho.event.RemoveAddSearchViewEvent;
-import com.example.saisai.yoho.fragment.fenlei_pinlei.FenleiPinleiBoyFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinpai.FenleiPinpaiBoyFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinpai.FenleiPinpaiGirlFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinpai.FenleiPinpaiKidFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinpai.FenleiPinpaiLifeStyleFragment;
-import com.example.saisai.yoho.model.HttpModel;
-import com.example.saisai.yoho.util.DimensUtils;
-import com.example.saisai.yoho.util.HttpUtils;
 import com.example.saisai.yoho.view.FenLeiViewPager;
 import com.example.saisai.yoho.view.HrizotalScrollView;
-import com.example.saisai.yoho.view.MyBanner;
 import com.example.saisai.yoho.view.MySearchView;
-import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -75,6 +61,8 @@ public class FenleiPinpaiFragment extends BaseFrament implements View.OnClickLis
     private MySearchView search_view;
 
     private View root;
+
+    public boolean isSelect = true;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container) {
@@ -132,13 +120,17 @@ public class FenleiPinpaiFragment extends BaseFrament implements View.OnClickLis
 
     @Override
     public void initData() {
-        List<Fragment> list=new ArrayList<>();
-        list.add(new FenleiPinpaiBoyFragment());
-        list.add(new FenleiPinpaiGirlFragment());
-        list.add(new FenleiPinpaiKidFragment());
-        list.add(new FenleiPinpaiLifeStyleFragment());
+
+        if (isSelect) {
+
+            List<Fragment> list = new ArrayList<>();
+            list.add(new FenleiPinpaiBoyFragment());
+            list.add(new FenleiPinpaiGirlFragment());
+            list.add(new FenleiPinpaiKidFragment());
+            list.add(new FenleiPinpaiLifeStyleFragment());
 //        pager.setOffscreenPageLimit(list.size()/2+1);
-        pager.setAdapter(new FenleiPinleiPagerAdapter(getFragmentManager(),list));
+            pager.setAdapter(new FenleiPinleiPagerAdapter(getFragmentManager(), list));
+        }
 
     }
     @Override

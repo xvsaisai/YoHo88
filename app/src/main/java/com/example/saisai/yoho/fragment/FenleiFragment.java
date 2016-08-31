@@ -1,7 +1,5 @@
 package com.example.saisai.yoho.fragment;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -16,9 +14,6 @@ import com.example.saisai.yoho.base.BaseFrament;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-
 /**
  * Created by saisai on 2016/8/23.
  */
@@ -30,6 +25,10 @@ public class FenleiFragment extends BaseFrament {
     private ViewPager pager;
     private TabLayout tab;
     private FenLeiPagerAdapter adapter;
+    private FenleiPinleiFragment fenleiPinleiFragment;
+    private FenleiPinpaiFragment fenleiPinpaiFragment;
+    private FenleiGuanZhuFragment fenleiGuanZhuFragment;
+
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container) {
 
@@ -44,9 +43,12 @@ public class FenleiFragment extends BaseFrament {
     public void initData() {
 
         list = new ArrayList<>();
-        list.add(new FenleiPinleiFragment());
-        list.add(new FenleiPinpaiFragment());
-        list.add(new FenleiGuanZhuFragment());
+        fenleiPinleiFragment = new FenleiPinleiFragment();
+        list.add(fenleiPinleiFragment);
+        fenleiPinpaiFragment = new FenleiPinpaiFragment();
+        list.add(fenleiPinpaiFragment);
+        fenleiGuanZhuFragment = new FenleiGuanZhuFragment();
+        list.add(fenleiGuanZhuFragment);
 
         titles = new ArrayList<>();
         titles.add("品类");
@@ -61,5 +63,42 @@ public class FenleiFragment extends BaseFrament {
         adapter = new FenLeiPagerAdapter(getFragmentManager(),list,titles);
         pager.setAdapter(adapter);
         tab.setupWithViewPager(pager);
+        pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+//                switch (position){
+//
+//                    case 0:
+//                        Log.e("tag","品类");
+//                        fenleiPinleiFragment.isSelect=true;
+//                        fenleiPinpaiFragment.isSelect=false;
+//                        fenleiGuanZhuFragment.isSelect=false;
+//                        break;
+//                    case 1:
+//                        Log.e("tag","品牌");
+//                        fenleiPinleiFragment.isSelect=false;
+//                        fenleiPinpaiFragment.isSelect=true;
+//                        fenleiGuanZhuFragment.isSelect=false;
+//                        break;
+//                    case 2:
+//                        Log.e("tag","关注");
+//                        fenleiPinleiFragment.isSelect=false;
+//                        fenleiPinpaiFragment.isSelect=false;
+//                        fenleiGuanZhuFragment.isSelect=true;
+//                        break;
+//                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 }

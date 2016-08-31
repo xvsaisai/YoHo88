@@ -15,4 +15,8 @@ public class MyLog {
     private static void print(String tag, String value) {
         Log.e(tag,value);
     }
+
+    public static void m(String value) {
+        Log.e("tag", value);
+    }
 }

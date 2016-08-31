@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -26,8 +25,9 @@ import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.FenLeiPagerAdapter;
 import com.example.saisai.yoho.base.BaseAnimatorListener;
 import com.example.saisai.yoho.bean.PinPaiBean;
-import com.example.saisai.yoho.fragment.GuangFragment;
-import com.example.saisai.yoho.fragment.WodeFragment;
+import com.example.saisai.yoho.fragment.pinpai_xiangqing.JiageFragment;
+import com.example.saisai.yoho.fragment.pinpai_xiangqing.ZhekouFragment;
+import com.example.saisai.yoho.fragment.pinpai_xiangqing.ZuixinFragment;
 import com.example.saisai.yoho.view.SlidingMenu;
 
 import java.util.ArrayList;
@@ -190,9 +190,9 @@ public class PinPaiXiangqingActivity extends BaseActivity {
     private void initData() {
 
         list = new ArrayList<>();
-        list.add(new WodeFragment());
-        list.add(new GuangFragment());
-        list.add(new WodeFragment());
+        list.add(new ZuixinFragment());
+        list.add(new JiageFragment());
+        list.add(new ZhekouFragment());
         listTitles = new ArrayList<>();
         listTitles.add("最新");
         listTitles.add("价格");

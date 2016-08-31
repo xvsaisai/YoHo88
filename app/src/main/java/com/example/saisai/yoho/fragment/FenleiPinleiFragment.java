@@ -40,6 +40,8 @@ public class FenleiPinleiFragment extends BaseFrament {
     private List<Fragment> list;
     private FenleiPinleiPagerAdapter adapter;
 
+    public boolean isSelect = true;
+
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container) {
         View inflate = inflater.inflate(R.layout.fragment_fenlei_pinlei, null);
@@ -51,18 +53,24 @@ public class FenleiPinleiFragment extends BaseFrament {
 
     @Override
     public void initData() {
-        list = new ArrayList<>();
-        list.add(new FenleiPinleiBoyFragment());
-        list.add(new FenleiPinleiGirlFragment());
-        list.add(new FenleiPinleiLifeStyleFragment());
+        if (isSelect) {
+
+            list = new ArrayList<>();
+            list.add(new FenleiPinleiBoyFragment());
+            list.add(new FenleiPinleiGirlFragment());
+            list.add(new FenleiPinleiLifeStyleFragment());
+        }
     }
 
     @Override
     public void initAdapter() {
         super.initAdapter();
+        if (isSelect) {
+
 //        pager.setOffscreenPageLimit(list.size()/2+1);
-        adapter = new FenleiPinleiPagerAdapter(getFragmentManager(), list);
-        pager.setAdapter(adapter);
+            adapter = new FenleiPinleiPagerAdapter(getFragmentManager(), list);
+            pager.setAdapter(adapter);
+        }
     }
 
 
