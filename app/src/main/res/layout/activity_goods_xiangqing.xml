@@ -5,22 +5,11 @@
     android:layout_height="match_parent"
     tools:context="com.example.saisai.yoho.activity.GoodsXiangqingActivity">
 
-    <com.example.saisai.yoho.view.MyScrollView
-        android:id="@+id/sc"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView
+        android:id="@+id/tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="helloword" />
 
-        <TextView
-            android:text="sfksahfa;afsfksahfa;af;afdf;acldlcmlm;afdf;acldlcmlm"
-            android:textSize="100sp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.example.saisai.yoho.view.MyScrollView>
 
-    <ListView
-        android:layout_below="@+id/sc"
-        android:id="@+id/lv"
-        android:entries="@array/navigation_lv_values"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
 </RelativeLayout>

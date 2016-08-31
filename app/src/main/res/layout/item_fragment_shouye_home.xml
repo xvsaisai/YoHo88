@@ -20,9 +20,10 @@
 
         <ImageView
             android:id="@+id/iv_img1"
+            android:scaleType="centerCrop"
             android:layout_width="match_parent"
             android:layout_height="200dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/product_icon_loading_default" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -31,10 +32,11 @@
 
             <ImageView
                 android:id="@+id/iv_img2"
+                android:scaleType="centerCrop"
                 android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/product_icon_loading_default" />
 
             <TableLayout
                 android:layout_weight="1"
@@ -47,17 +49,19 @@
 
                     <ImageView
                         android:id="@+id/iv_img3"
+                        android:scaleType="centerCrop"
                         android:layout_weight="1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@drawable/product_icon_loading_default" />
 
                     <ImageView
                         android:id="@+id/iv_img4"
                         android:layout_width="match_parent"
+                        android:scaleType="centerCrop"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@drawable/product_icon_loading_default" />
                 </TableRow>
 
                 <TableRow
@@ -66,17 +70,19 @@
 
                     <ImageView
                         android:id="@+id/iv_img5"
+                        android:scaleType="centerCrop"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@drawable/product_icon_loading_default" />
 
                     <ImageView
+                        android:scaleType="centerCrop"
                         android:id="@+id/iv_img6"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:src="@mipmap/ic_launcher" />
+                        android:src="@drawable/product_icon_loading_default" />
                 </TableRow>
             </TableLayout>
         </LinearLayout>

@@ -1,15 +1,11 @@
 package com.example.saisai.yoho.fragment;
 
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,12 +25,9 @@ import com.example.saisai.yoho.view.PullLoadListView;
 import com.example.saisai.yoho.view.ShouyeGridVIew;
 import com.google.gson.Gson;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.StringTokenizer;
 
 /**
  * Created by saisai on 2016/8/23.
@@ -122,7 +115,8 @@ public class ShouyeFragment extends BaseFrament{
             }
         });
 
-
+        //设置上拉加载不可用
+        pullLoadListView.setPullUpUsable(false);
 
         return inflate;
     }
@@ -167,25 +161,51 @@ public class ShouyeFragment extends BaseFrament{
 
     @Override
     public void initData() {
+        homeList = new ArrayList<List<HomeBean.BrandBean>>();
+        adapter = new HomeListAdapter(homeList, activity);
+        pullLoadListView.setAdapter(adapter);
         new HttpUtils().loadData(HttpModel.HOMEPAGER, "parames={\\\"shop\\\":\\\"1\\\"}").setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
 
             @Override
             public void loadSuccess(String content) {
 
                 HomeBean homeBean = new Gson().fromJson(content, HomeBean.class);
-                homeList = new ArrayList<List<HomeBean.BrandBean>>();
+
                 homeList.add(homeBean.getAccessories());
                 homeList.add(homeBean.getBrand());
                 homeList.add(homeBean.getMen());
                 homeList.add(homeBean.getMenpants());
                 homeList.add(homeBean.getOther());
-                adapter = new HomeListAdapter(homeList, activity);
-                pullLoadListView.setAdapter(adapter);
+
+                adapter.notifyDataSetChanged();
             }
 
             @Override
             public void loadFailed(String msg) {
                 Log.e("tag", "Failed-----" + msg);
+            }
+        });
+
+        pullLoadListView.setOnScrollListener(new PullLoadListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                switch (scrollState) {
+
+                    case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+                    case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                        adapter.isDrag = true;
+                        break;
+                    case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                        adapter.isDrag = false;
+                        adapter.notifyDataSetChanged();
+                        break;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
             }
         });
     }

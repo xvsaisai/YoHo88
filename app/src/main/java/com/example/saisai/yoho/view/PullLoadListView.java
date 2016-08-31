@@ -2,20 +2,16 @@ package com.example.saisai.yoho.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.util.DimensUtils;
-
-import java.util.List;
 
 /**
  * Created by saisai on 2016/8/29.
@@ -32,6 +28,7 @@ public class PullLoadListView extends RelativeLayout {
     private int headHeight;
     private int footHeight;
     private float y;
+
 
     public PullLoadListView(Context context) {
         this(context,null);
@@ -80,6 +77,22 @@ public class PullLoadListView extends RelativeLayout {
         addView(headView);
         addView(footView);
         addView(lv);
+
+        lv.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                if (onScrollListener != null) {
+                    onScrollListener.onScrollStateChanged(view, scrollState);
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (onScrollListener != null) {
+                    onScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
+                }
+            }
+        });
     }
 
     public void setAdapter(BaseAdapter adapter){
@@ -100,6 +113,30 @@ public class PullLoadListView extends RelativeLayout {
         lv.setSelection(position);
     }
 
+    public interface OnScrollListener {
+        void onScrollStateChanged(AbsListView view, int scrollState);
+
+        void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount);
+    }
+
+    private OnScrollListener onScrollListener;
+
+    public void setOnScrollListener(OnScrollListener onScrollListener) {
+        this.onScrollListener = onScrollListener;
+    }
+
+    boolean isDownUsable = true;
+
+    public void setPullDownUsable(boolean downUsable) {
+        this.isDownUsable = downUsable;
+    }
+
+    boolean isUpUsable = true;
+
+    public void setPullUpUsable(boolean upUsable) {
+        this.isUpUsable = upUsable;
+    }
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
 
@@ -112,19 +149,27 @@ public class PullLoadListView extends RelativeLayout {
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
+
+
                 float moveY = ev.getY() - y;
                 if(moveY>0&&lv.getFirstVisiblePosition()==0){
                     View childAt = lv.getChildAt(0);
                     if(childAt.getTop()>=0){
+                        if (!isDownUsable) {
+                            break;
+                        }
                         return true;
                     }
                 }
-                Log.e("tag",lv.getLastVisiblePosition()+"===="+(lv.getAdapter().getCount()-1));
+//                Log.e("tag",lv.getLastVisiblePosition()+"===="+(lv.getAdapter().getCount()-1));
                 if(moveY<0&&lv.getLastVisiblePosition()==lv.getAdapter().getCount()-1){
                     int i = lv.getCount() - lv.getFirstVisiblePosition();
                     View childAt = lv.getChildAt(i - 1);
                     if(childAt.getBottom()<=lv.getMeasuredHeight()){
-                        Log.e("tag","true");
+//                        Log.e("tag","true");
+                        if (!isUpUsable) {
+                            break;
+                        }
                         return true;
                     }
                 }
@@ -146,10 +191,16 @@ public class PullLoadListView extends RelativeLayout {
                 }
                 float moveY = event.getY() - y;
                 if(moveY>0&&lv.getFirstVisiblePosition()==0){
+                    if (!isDownUsable) {
+                        break;
+                    }
                     headPramas.topMargin= (int) (-headHeight+moveY);
                     headView.setLayoutParams(headPramas);
                 }
                 if(moveY<0&&lv.getLastVisiblePosition()==lv.getAdapter().getCount()-1){
+                    if (!isUpUsable) {
+                        break;
+                    }
                     footParams.bottomMargin= (int) (-footHeight-moveY);
                     footView.setLayoutParams(footParams);
                     lvParams.topMargin= (int) moveY;
@@ -178,12 +229,16 @@ public class PullLoadListView extends RelativeLayout {
                     footParams.bottomMargin=0;
                     footView.setLayoutParams(footParams);
                     footView.setImageResource(R.drawable.load);
+                    lvParams.topMargin = -footHeight;
+                    lv.setLayoutParams(lvParams);
                     if(onPullOrLoadListener!=null){
                         onPullOrLoadListener.load();
                     }
                 }else {
                     footParams.bottomMargin=-footHeight;
                     footView.setLayoutParams(footParams);
+                    lvParams.topMargin = 0;
+                    lv.setLayoutParams(lvParams);
                 }
                 break;
         }

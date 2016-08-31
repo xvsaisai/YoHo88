@@ -21,6 +21,12 @@ import butterknife.ButterKnife;
  * Created by admin on 2016/8/30.
  */
 public class HomeListAdapter extends BaseSearchLVAdapter<List<HomeBean.BrandBean>> {
+
+    public boolean isDrag = false;
+
+    public void setDrag(boolean isDrag) {
+        this.isDrag = isDrag;
+    }
     public HomeListAdapter(List<List<HomeBean.BrandBean>> list, Context ctx) {
         super(list, ctx);
     }
@@ -47,7 +53,11 @@ public class HomeListAdapter extends BaseSearchLVAdapter<List<HomeBean.BrandBean
         for (int i = 0; i < 6; i++) {
             HomeBean.BrandBean brandBean = brandBeen.get(i);
             String imgpath = brandBean.getImgpath();
-            Picasso.with(context).load(HttpModel.IMGHOST + imgpath).fit().placeholder(R.mipmap.ic_launcher).into(ivs.get(i));
+            if (!isDrag) {
+                Picasso.with(context).load(HttpModel.IMGHOST + imgpath).fit().placeholder(R.drawable.product_icon_loading_default).into(ivs.get(i));
+            } else {
+                ivs.get(i).setImageResource(R.drawable.product_icon_loading_default);
+            }
         }
         return convertView;
     }
