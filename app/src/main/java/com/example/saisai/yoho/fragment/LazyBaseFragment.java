@@ -54,6 +54,7 @@ public abstract class LazyBaseFragment extends Fragment {
 
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
+
         MyLog.m("isVisibleToUser " + isVisibleToUser + "   " + this.getClass().getSimpleName());
         if (isVisibleToUser) {
             isVisible = true;
@@ -62,6 +63,7 @@ public abstract class LazyBaseFragment extends Fragment {
         } else {
             isVisible = false;
         }
+        MyLog.m("LazyBaseFragment================" + this + "");
         super.setUserVisibleHint(isVisibleToUser);
     }
 

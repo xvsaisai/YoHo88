@@ -59,7 +59,7 @@ public class FenleiFragment extends BaseFrament {
 
     @Override
     public void initAdapter() {
-//        pager.setOffscreenPageLimit(list.size()/2+1);//设置预缓存页数
+        pager.setOffscreenPageLimit(list.size());//设置预缓存页数
         adapter = new FenLeiPagerAdapter(getFragmentManager(),list,titles);
         pager.setAdapter(adapter);
         tab.setupWithViewPager(pager);

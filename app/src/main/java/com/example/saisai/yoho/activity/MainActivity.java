@@ -2,7 +2,6 @@ package com.example.saisai.yoho.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -12,10 +11,13 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.example.saisai.yoho.MyApplication;
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.NavigationViewAdapter;
+import com.example.saisai.yoho.base.BaseFrament;
+import com.example.saisai.yoho.bean.CartItemBean;
 import com.example.saisai.yoho.bean.ShangPinXiangQingBean;
 import com.example.saisai.yoho.event.MainJumpPinpaiXiangqingActivityEvent;
 import com.example.saisai.yoho.event.UpdateCartCountEvent;
@@ -23,9 +25,13 @@ import com.example.saisai.yoho.fragment.FenleiFragment;
 import com.example.saisai.yoho.fragment.GuangFragment;
 import com.example.saisai.yoho.fragment.ShouyeFragment;
 import com.example.saisai.yoho.fragment.WodeFragment;
+import com.example.saisai.yoho.model.HttpModel;
+import com.example.saisai.yoho.util.HttpUtils;
 import com.example.saisai.yoho.util.LocalCartUtils;
+import com.example.saisai.yoho.util.MyLog;
 import com.example.saisai.yoho.view.MyRadioButton;
 import com.example.saisai.yoho.view.MySlidingPaneLayout;
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -77,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private NavigationViewAdapter adapter;
     private String[] stringArray;
 
-    private Map<String,Fragment> fragmentMap=new HashMap<>();
+    private Map<String, BaseFrament> fragmentMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +102,7 @@ public class MainActivity extends AppCompatActivity {
             rdShouye.performClick();
         }
 
+
         initData();
         lvnavigation.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -106,26 +113,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+
+    //初始化购物车图标显示的数量
     private void initCartCount() {
 
+        //从网络请求过来的数据有延迟
         if (MyApplication.checkLogin()) {
-//            new HttpUtils().loadData().setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
-//                @Override
-//                public void loadSuccess(String content) {
-//
-//                }
-//
-//                @Override
-//                public void loadFailed(String msg) {
-//
-//                }
-//            });
+            new HttpUtils().loadData(HttpModel.CART, "parames={\"userId\":" + MyApplication.user.id + "}").setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
+                @Override
+                public void loadSuccess(String content) {
+
+                    CartItemBean cartItemBean = new Gson().fromJson(content, CartItemBean.class);
+                    List<CartItemBean.Cart> cart = cartItemBean.getCart();
+                    int num = 0;
+                    for (int i = 0; i < cart.size(); i++) {
+                        num += Integer.parseInt(cart.get(i).getNum());
+                    }
+                    MyApplication.count = num;
+                    EventBus.getDefault().post(new UpdateCartCountEvent());
+                }
+
+                @Override
+                public void loadFailed(String msg) {
+                    Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
+                }
+            });
         } else {
+
             List<ShangPinXiangQingBean.GoodsBean> goodsBeen = LocalCartUtils.get();
             MyApplication.count = goodsBeen.size();
+//            EventBus.getDefault().post(new UpdateCartCountEvent());
+
         }
     }
 
+    //查找Fragment是否存在，不存在就创建并且压入栈中
     private boolean findFragment() {
 
         ShouyeFragment shouyeFragment= (ShouyeFragment) getSupportFragmentManager().findFragmentByTag(ShouyeFragment.class.getSimpleName());
@@ -159,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //初始化Fragment，并压入栈中
     private void initFragment() {
 
         // 放置之前可以判断有没有
@@ -180,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
     String currentFragmengTag="";
     private void replaceFragment(String tag) {
 
-        Fragment fragment = fragmentMap.get(tag);
+        BaseFrament fragment = (BaseFrament) fragmentMap.get(tag);
         if (!fragmentTag.equals(tag)) {
             Log.e("das", "qiehuan");
             currentFragmengTag = tag;
@@ -190,6 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //初始化暑数据源
     private void initData() {
 
         stringArray = getResources().getStringArray(R.array.navigation_lv_values);
@@ -213,6 +237,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
+    //切换Fragment
     @OnClick({R.id.rd_shouye, R.id.rd_fenlei, R.id.rd_guang, R.id.rd_gouwuche, R.id.rd_wode})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -286,6 +311,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+
+        MyLog.m("MainActivity------destory");
     }
 
     public void open(View view) {

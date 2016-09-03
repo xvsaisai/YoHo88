@@ -54,6 +54,7 @@ public class GouwucheDialog extends BaseDialog {
         this.shangPinXiangQingBean = shangPinXiangQingBean;
         setContentView(inflate);
 
+
         init(inflate);
         initData();
         initListener();

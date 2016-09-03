@@ -1,28 +1,21 @@
 package com.example.saisai.yoho.fragment;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.FenleiPinleiPagerAdapter;
-import com.example.saisai.yoho.adapter.fenlei_pinpai.FenleiPinpaiBoyExpandAdapter;
-import com.example.saisai.yoho.base.BaseFrament;
-import com.example.saisai.yoho.bean.PinPaiParentBean;
 import com.example.saisai.yoho.event.RemoveAddSearchViewEvent;
 import com.example.saisai.yoho.fragment.fenlei_pinpai.FenleiPinpaiBoyFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinpai.FenleiPinpaiGirlFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinpai.FenleiPinpaiKidFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinpai.FenleiPinpaiLifeStyleFragment;
 import com.example.saisai.yoho.view.FenLeiViewPager;
-import com.example.saisai.yoho.view.HrizotalScrollView;
 import com.example.saisai.yoho.view.MySearchView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -35,61 +28,67 @@ import java.util.List;
 /**
  * Created by saisai on 2016/8/25.
  */
-public class FenleiPinpaiFragment extends BaseFrament implements View.OnClickListener {
-    private com.example.saisai.yoho.view.MyBanner banner;
-    private android.widget.ExpandableListView expand;
-    private View search;
-    private HrizotalScrollView tuijian;
-    private List<String> letter;
-    private FenleiPinpaiBoyExpandAdapter adapter;
-    private List<PinPaiParentBean> list;
-    private List<PinPaiParentBean> pinpaiParentList;
-    private View empty;
-    private ProgressBar pb_empty;
-    private TextView tv_empty;
-    private ListView lv_letter;
+public class FenleiPinpaiFragment extends LazyBaseFragment implements View.OnClickListener {
     private android.widget.RadioButton rdboy;
     private android.widget.RadioButton rdgirl;
     private android.widget.RadioButton rdkid;
     private android.widget.RadioButton rdlifrstyle;
-    private android.widget.RadioGroup tabgroup;
-    private TextView tvempty;
-    private ProgressBar pbempty;
-    private ListView lvletter;
     private FenLeiViewPager pager;
     private ViewGroup pinpai_group;
     private MySearchView search_view;
+    private RadioGroup tabgroup;
 
     private View root;
 
-    public boolean isSelect = true;
+    private List<Fragment> list;
+
 
     @Override
-    public View initView(LayoutInflater inflater, ViewGroup container) {
-
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-
-        View inflate = inflater.inflate(R.layout.fragment_fenlei_pinpai, null);
-
-        pinpai_group = (ViewGroup) inflate.findViewById(R.id.pinpai_group);
-        search_view = new MySearchView(activity);
-        root = inflate.findViewById(R.id.pinpai_pager_group);
-
-        this.pager = (FenLeiViewPager) inflate.findViewById(R.id.pinpai_pager);
-        this.tabgroup = (RadioGroup) inflate.findViewById(R.id.tab_group);
-        this.rdlifrstyle = (RadioButton) inflate.findViewById(R.id.rd_lifrstyle);
-        rdlifrstyle.setOnClickListener(this);
-        this.rdkid = (RadioButton) inflate.findViewById(R.id.rd_kid);
-        rdkid.setOnClickListener(this);
-        this.rdgirl = (RadioButton) inflate.findViewById(R.id.rd_girl);
-        rdgirl.setOnClickListener(this);
-        this.rdboy = (RadioButton) inflate.findViewById(R.id.rd_boy);
-        rdboy.setOnClickListener(this);
-        rdboy.performClick();
-
-        return inflate;
     }
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_fenlei_pinpai;
+    }
+
+    @Override
+    protected void initView() {
+        pinpai_group = findView(R.id.pinpai_group);
+        search_view = new MySearchView(getContext());
+        root = findView(R.id.pinpai_pager_group);
+
+        this.pager = findView(R.id.pinpai_pager);
+        this.tabgroup = findView(R.id.tab_group);
+        this.rdlifrstyle = findView(R.id.rd_lifrstyle);
+        rdlifrstyle.setOnClickListener(this);
+        this.rdkid = findView(R.id.rd_kid);
+        rdkid.setOnClickListener(this);
+        this.rdgirl = findView(R.id.rd_girl);
+        rdgirl.setOnClickListener(this);
+        this.rdboy = findView(R.id.rd_boy);
+        rdboy.setOnClickListener(this);
+        rdboy.performClick();
+    }
+
+    @Override
+    public void initData() {
+
+        list = new ArrayList<>();
+        list.add(new FenleiPinpaiBoyFragment());
+        list.add(new FenleiPinpaiGirlFragment());
+        list.add(new FenleiPinpaiKidFragment());
+        list.add(new FenleiPinpaiLifeStyleFragment());
+
+    }
+    @Override
+    protected void initAdapter() {
+//        pager.setOffscreenPageLimit(list.size()/2+1);
+        pager.setOffscreenPageLimit(list.size());
+        pager.setAdapter(new FenleiPinleiPagerAdapter(getFragmentManager(), list));
+    }
 
     @Override
     public void onClick(View v) {
@@ -118,27 +117,7 @@ public class FenleiPinpaiFragment extends BaseFrament implements View.OnClickLis
 
     }
 
-    @Override
-    public void initData() {
 
-        if (isSelect) {
-
-            List<Fragment> list = new ArrayList<>();
-            list.add(new FenleiPinpaiBoyFragment());
-            list.add(new FenleiPinpaiGirlFragment());
-            list.add(new FenleiPinpaiKidFragment());
-            list.add(new FenleiPinpaiLifeStyleFragment());
-//        pager.setOffscreenPageLimit(list.size()/2+1);
-            pager.setAdapter(new FenleiPinleiPagerAdapter(getFragmentManager(), list));
-        }
-
-    }
-    @Override
-    public void onDetach() {
-
-        EventBus.getDefault().unregister(this);
-        super.onDetach();
-    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onRemoveAddSearchEvent(RemoveAddSearchViewEvent event){
@@ -152,4 +131,12 @@ public class FenleiPinpaiFragment extends BaseFrament implements View.OnClickLis
             pinpai_group.addView(root);
         }
     }
+
+    @Override
+    public void onDetach() {
+
+        EventBus.getDefault().unregister(this);
+        super.onDetach();
+    }
+
 }

@@ -1,105 +1,84 @@
 package com.example.saisai.yoho.fragment;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.support.v4.view.ViewPager;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.FenleiPinleiPagerAdapter;
-import com.example.saisai.yoho.base.BaseFrament;
 import com.example.saisai.yoho.fragment.fenlei_pinlei.FenleiPinleiBoyFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinlei.FenleiPinleiGirlFragment;
 import com.example.saisai.yoho.fragment.fenlei_pinlei.FenleiPinleiLifeStyleFragment;
-import com.example.saisai.yoho.view.FenLeiViewPager;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Created by saisai on 2016/8/24.
  */
-public class FenleiPinleiFragment extends BaseFrament {
-    @Bind(R.id.rd_boy)
-    RadioButton rdBoy;
-    @Bind(R.id.rd_girl)
-    RadioButton rdGirl;
-    @Bind(R.id.rd_lifrstyle)
-    RadioButton rdLifrstyle;
-    @Bind(R.id.pinlei_pager)
-    FenLeiViewPager pager;
-    @Bind(R.id.tab_group)
-    RadioGroup tabGroup;
-    private List<Fragment> list;
-    private FenleiPinleiPagerAdapter adapter;
+public class FenleiPinleiFragment extends LazyBaseFragment implements View.OnClickListener {
+    public RadioButton rd_boy;
+    public RadioButton rd_girl;
+    public RadioButton rd_lifrstyle;
+    public ViewPager pinlei_pager;
+    public RadioGroup tab_group;
+
+    public List<Fragment> list;
+    public FenleiPinleiPagerAdapter adapter;
 
     public boolean isSelect = true;
 
+
     @Override
-    public View initView(LayoutInflater inflater, ViewGroup container) {
-        View inflate = inflater.inflate(R.layout.fragment_fenlei_pinlei, null);
-        ButterKnife.bind(this, inflate);
-        rdBoy.performClick();
-        return inflate;
+    protected int getLayoutId() {
+        return R.layout.fragment_fenlei_pinlei;
+    }
+
+    @Override
+    protected void initView() {
+        rd_boy = findView(R.id.rd_boy);
+        rd_girl = findView(R.id.rd_girl);
+        rd_lifrstyle = findView(R.id.rd_lifrstyle);
+        pinlei_pager = findView(R.id.pinlei_pager);
+        tab_group = findView(R.id.tab_group);
+
+        rd_boy.performClick();
+        rd_boy.setOnClickListener(this);
+        rd_girl.setOnClickListener(this);
+        rd_lifrstyle.setOnClickListener(this);
 
     }
 
     @Override
-    public void initData() {
-        if (isSelect) {
+    protected void initData() {
 
-            list = new ArrayList<>();
-            list.add(new FenleiPinleiBoyFragment());
-            list.add(new FenleiPinleiGirlFragment());
-            list.add(new FenleiPinleiLifeStyleFragment());
-        }
+        list = new ArrayList<>();
+        list.add(new FenleiPinleiBoyFragment());
+        list.add(new FenleiPinleiGirlFragment());
+        list.add(new FenleiPinleiLifeStyleFragment());
     }
 
     @Override
-    public void initAdapter() {
-        super.initAdapter();
-        if (isSelect) {
-
-//        pager.setOffscreenPageLimit(list.size()/2+1);
-            adapter = new FenleiPinleiPagerAdapter(getFragmentManager(), list);
-            pager.setAdapter(adapter);
-        }
+    protected void initAdapter() {
+        adapter = new FenleiPinleiPagerAdapter(getChildFragmentManager(), list);
+        pinlei_pager.setAdapter(adapter);
     }
 
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
-    }
-
-    @OnClick({R.id.rd_boy, R.id.rd_girl, R.id.rd_lifrstyle})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.rd_boy:
-                pager.setCurrentItem(0, false);//false表示切换时候没有动画
+                pinlei_pager.setCurrentItem(0, false);//false表示切换时候没有动画
                 break;
             case R.id.rd_girl:
-                pager.setCurrentItem(1, false);
+                pinlei_pager.setCurrentItem(1, false);
                 break;
             case R.id.rd_lifrstyle:
-                pager.setCurrentItem(2, false);
+                pinlei_pager.setCurrentItem(2, false);
                 break;
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
-    }
 }

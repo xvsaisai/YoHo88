@@ -10,7 +10,7 @@ import com.example.saisai.yoho.user.User;
 public class MyApplication extends Application {
 
     public static MyApplication app;
-    public static User user;
+    public static User user = new User();
     public static int count;
 
     @Override

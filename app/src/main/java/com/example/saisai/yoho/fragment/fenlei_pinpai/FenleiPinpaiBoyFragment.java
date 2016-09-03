@@ -7,23 +7,16 @@ import android.widget.ArrayAdapter;
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.fenlei_pinpai.FenleiPinpaiBoyExpandAdapter;
 import com.example.saisai.yoho.bean.PinPaiBean;
-import com.example.saisai.yoho.bean.PinPaiParentBean;
 import com.example.saisai.yoho.model.HttpModel;
 import com.example.saisai.yoho.util.HttpUtils;
 import com.google.gson.Gson;
 
 import java.util.Collections;
-import java.util.List;
 
 /**
  * Created by saisai on 2016/8/25.
  */
 public class FenleiPinpaiBoyFragment extends FenleiPinpaiBaseFragment {
-
-    @Override
-    public void initData() {
-        super.initData();
-    }
 
     @Override
     public void requestData() {
@@ -36,12 +29,12 @@ public class FenleiPinpaiBoyFragment extends FenleiPinpaiBaseFragment {
                 letter = getLetter(brand);
                 Collections.sort(letter);
                 pinpaiParentList = getPinpaiParentList(letter, brand);
-                adapter = new FenleiPinpaiBoyExpandAdapter(pinpaiParentList,activity);
+                adapter = new FenleiPinpaiBoyExpandAdapter(pinpaiParentList, getContext());
                 expand.setAdapter(adapter);
                 openExpand();
 
                 lvletter.setVisibility(View.VISIBLE);
-                lvletter.setAdapter(new ArrayAdapter<String>(activity, R.layout.item_lv_letter,R.id.letter_item_tv,letter));
+                lvletter.setAdapter(new ArrayAdapter<String>(getContext(), R.layout.item_lv_letter, R.id.letter_item_tv, letter));
 //                pbempty.setVisibility(View.VISIBLE);
 //                tvempty.setVisibility(View.GONE);
 //                lvletter.setVisibility(View.VISIBLE);

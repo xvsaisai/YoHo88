@@ -135,6 +135,7 @@ public class GoodsXiangqingActivity extends AppCompatActivity implements ViewPag
 
     private void initListener() {
 
+
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
