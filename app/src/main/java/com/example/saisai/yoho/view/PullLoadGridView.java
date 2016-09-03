@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -89,6 +90,19 @@ public class PullLoadGridView extends RelativeLayout {
                 }
             }
         });
+    }
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+        gv.setOnItemClickListener(listener);
+    }
+
+    public void setOnItemLongClickListener(AdapterView.OnItemLongClickListener longClickListener) {
+        gv.setOnItemLongClickListener(longClickListener);
+
+    }
+
+    public void setOnItemSelectedListener(AdapterView.OnItemSelectedListener listener) {
+        gv.setOnItemSelectedListener(listener);
     }
 
     //设置适配器

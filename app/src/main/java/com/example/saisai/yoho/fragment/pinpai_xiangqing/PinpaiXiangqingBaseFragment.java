@@ -1,122 +1,185 @@
 package com.example.saisai.yoho.fragment.pinpai_xiangqing;
 
-import android.content.Context;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.util.SparseArray;
-import android.view.LayoutInflater;
+import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.GridView;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
-import com.example.saisai.yoho.util.MyLog;
+import com.example.saisai.yoho.R;
+import com.example.saisai.yoho.activity.GoodsXiangqingActivity;
+import com.example.saisai.yoho.adapter.BaseSearchLVAdapter;
+import com.example.saisai.yoho.bean.FllowItemBean;
+import com.example.saisai.yoho.fragment.LazyBaseFragment;
+import com.example.saisai.yoho.model.HttpModel;
+import com.example.saisai.yoho.view.PullLoadGridView;
+import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by saisai on 2016/8/27.
  */
-public abstract class PinpaiXiangqingBaseFragment extends Fragment {
+public abstract class PinpaiXiangqingBaseFragment extends LazyBaseFragment implements PullLoadGridView.OnPullDownListener, PullLoadGridView.OnPullUpListener, PullLoadGridView.OnScrollListener, AdapterView.OnItemClickListener {
 
-    private GridView gridView;
 
-    private boolean isVisible = false;//当前Fragment是否可见
-    private boolean isInitView = false;//是否与View建立起映射关系
-    private boolean isFirstLoad = true;//是否是第一次加载数据
+    protected PullLoadGridView gv;
+    protected List<FllowItemBean.FollowBean.GoodsBean> list;
+    protected BaseSearchLVAdapter adapter;
 
-    private View convertView;
-    private SparseArray<View> mViews;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        MyLog.m("   " + this.getClass().getSimpleName());
-        convertView = inflater.inflate(getLayoutId(), container, false);
-        mViews = new SparseArray<>();
-        initView();
-        isInitView = true;
-        lazyLoadData();
-        return convertView;
-
-//        TextView vt=new TextView(getContext());
-//        vt.setText("snklaljajlkflk");
-//        return vt;
+    protected int getLayoutId() {
+        return R.layout.fragment_pinpaixiangqing;
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        MyLog.m("   " + this.getClass().getSimpleName());
+    protected void initView() {
+        gv = findView(R.id.gv_xiangqing);
+        gv.setOnPullDownListener(this);
+        gv.setOnPullUpListener(this);
+        gv.setOnScrollListener(this);
+        gv.setSelector(new BitmapDrawable());
+
+        gv.setOnItemClickListener(this);
     }
+
+    public boolean isDrag;
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        MyLog.m("context" + "   " + this.getClass().getSimpleName());
+    protected void initData() {
+        list = new ArrayList<FllowItemBean.FollowBean.GoodsBean>();
 
+        loadData();
     }
+
+    protected abstract void loadData();
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        MyLog.m("isVisibleToUser " + isVisibleToUser + "   " + this.getClass().getSimpleName());
-        if (isVisibleToUser) {
-            isVisible = true;
-            lazyLoadData();
+    protected void initAdapter() {
+        adapter = new BaseSearchLVAdapter<FllowItemBean.FollowBean.GoodsBean>(list, getContext()) {
 
-        } else {
-            isVisible = false;
-        }
-        super.setUserVisibleHint(isVisibleToUser);
-    }
 
-    private void lazyLoadData() {
-        if (isFirstLoad) {
-            MyLog.m("第一次加载 " + " isInitView  " + isInitView + "  isVisible  " + isVisible + "   " + this.getClass().getSimpleName());
-        } else {
-            MyLog.m("不是第一次加载" + " isInitView  " + isInitView + "  isVisible  " + isVisible + "   " + this.getClass().getSimpleName());
-        }
-        if (!isFirstLoad || !isVisible || !isInitView) {
-            MyLog.m("不加载" + "   " + this.getClass().getSimpleName());
-            return;
-        }
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
 
-        MyLog.m("完成数据第一次加载" + "   " + this.getClass().getSimpleName());
-        initData();
-        isFirstLoad = false;
-    }
+                Holder holder = null;
+                if (convertView == null) {
+                    convertView = View.inflate(getContext(), R.layout.item_pinpai_sort_gv, null);
+                    holder = new Holder();
+                    holder.tv_desc = (TextView) convertView.findViewById(R.id.tv_desc);
+                    holder.tv_price = (TextView) convertView.findViewById(R.id.tv_price);
+                    holder.iv = (ImageView) convertView.findViewById(R.id.iv_content);
 
-    /**
-     * 加载页面布局文件
-     *
-     * @return
-     */
-    protected abstract int getLayoutId();
+                    convertView.setTag(holder);
+                } else {
+                    holder = (Holder) convertView.getTag();
+                }
+                holder.tv_price.setText(list.get(position).getDistance() + "");
+                holder.tv_desc.setText("啊方便时候搜服好哦啊手");
 
-    /**
-     * 让布局中的view与fragment中的变量建立起映射
-     */
-    protected abstract void initView();
+//                if (!isDrag) {
+                Picasso.with(getContext()).load(HttpModel.IMGHOST + list.get(position).getGoodsimg()).fit().into(holder.iv);
+//                } else {
+//                    holder.iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                    holder.iv.setImageResource(R.drawable.goodslist_placeholder);
+//                }
 
-    /**
-     * 加载要显示的数据
-     */
-    protected abstract void initData();
 
-    /**
-     * fragment中可以通过这个方法直接找到需要的view，而不需要进行类型强转
-     *
-     * @param viewId
-     * @param <E>
-     * @return
-     */
-    protected <E extends View> E findView(int viewId) {
-        if (convertView != null) {
-            E view = (E) mViews.get(viewId);
-            if (view == null) {
-                view = (E) convertView.findViewById(viewId);
-                mViews.put(viewId, view);
+                return convertView;
             }
-            return view;
+
+            class Holder {
+                TextView tv_desc, tv_price;
+                ImageView iv;
+            }
+        };
+        gv.setAdapter(adapter);
+        gv.setPullDownUsable(false);
+    }
+
+    public void shengxvData() {
+        Collections.sort(list, new Comparator<FllowItemBean.FollowBean.GoodsBean>() {
+            @Override
+            public int compare(FllowItemBean.FollowBean.GoodsBean lhs, FllowItemBean.FollowBean.GoodsBean rhs) {
+
+                int i = Integer.parseInt(lhs.getDistance()) - Integer.parseInt(rhs.getDistance());
+                if (i > 0)
+                    return 1;
+                else if (i < 0)
+                    return -1;
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
+        gv.setSelection(0);
+    }
+
+    public void jiangxvData() {
+        Collections.sort(list, new Comparator<FllowItemBean.FollowBean.GoodsBean>() {
+            @Override
+            public int compare(FllowItemBean.FollowBean.GoodsBean lhs, FllowItemBean.FollowBean.GoodsBean rhs) {
+
+                int i = Integer.parseInt(rhs.getDistance()) - Integer.parseInt(lhs.getDistance());
+                if (i > 0)
+                    return 1;
+                else if (i < 0)
+                    return -1;
+                return 0;
+            }
+        });
+        adapter.notifyDataSetChanged();
+        gv.setSelection(0);
+    }
+
+    @Override
+    public void pullDown() {
+        loadData();
+        gv.pullDownSuccess();
+    }
+
+    @Override
+    public void pullUp() {
+        new android.os.Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getContext(), "加载完成", Toast.LENGTH_SHORT).show();
+                ;
+                gv.pullUpSuccess();
+            }
+        }, 2000);
+    }
+
+    @Override
+    public void onScrollStateChanged(AbsListView view, int scrollState) {
+        switch (scrollState) {
+            case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
+            case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
+                isDrag = true;
+                break;
+            case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
+                isDrag = false;
+                adapter.notifyDataSetChanged();
+                break;
         }
-        return null;
+    }
+
+    @Override
+    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        Intent intent = new Intent(getContext(), GoodsXiangqingActivity.class);
+        intent.putExtra("bean", list.get(position));
+        startActivity(intent);
     }
 }

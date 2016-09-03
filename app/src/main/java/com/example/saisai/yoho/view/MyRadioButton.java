@@ -40,7 +40,7 @@ public class MyRadioButton extends RadioButton {
         redDotRedus = typedArray.getDimensionPixelSize(R.styleable.MyRadioButton_redDotRedus, DimensUtils.dp2px(10));
         redDotBGColor = typedArray.getColor(R.styleable.MyRadioButton_redDotBGColor, Color.RED);
         redDotTextColor = typedArray.getColor(R.styleable.MyRadioButton_redDotTextColor, Color.WHITE);
-        redDotTextSize = typedArray.getDimensionPixelSize(R.styleable.MyRadioButton_redDotTextSize, 12);
+        redDotTextSize = typedArray.getDimensionPixelSize(R.styleable.MyRadioButton_redDotTextSize, DimensUtils.dp2px(16));
         redDotTextNum = typedArray.getInt(R.styleable.MyRadioButton_redDotTextNum, -1);
         typedArray.recycle();//释放
         init();
@@ -72,4 +72,16 @@ public class MyRadioButton extends RadioButton {
             canvas.drawText(redDotTextNum + "",0,(redDotTextNum + "").length(),getWidth()/4*3-v/2,getHeight()/4+rect.height()/2,paintText);
         }
     }
+
+    public void setRedDotTextNum(int num) {
+        redDotTextNum = num;
+    }
+
+    public int getRedDotTextNum() {
+        return redDotTextNum;
+    }
+
+//    public void setRedDotTextSize(int size){
+//        this.redDotTextSize=size;
+//    }
 }

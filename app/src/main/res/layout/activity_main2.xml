@@ -55,7 +55,7 @@
                 app:redDotBGColor="#f00"
                 app:redDotTextColor="#fff"
                 app:redDotTextNum="10"
-                app:redDotTextSize="10sp"
+                app:redDotTextSize="16sp"
                 style="@style/main_navigationbar_style"/>
             <com.example.saisai.yoho.view.MyRadioButton
                 android:id="@+id/rd_wode"

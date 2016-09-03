@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.example.saisai.yoho.view.snapscrollview.McoyScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/product_scrollview"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#f1f1f5"
+    android:fadeScrollbars="true"
+    android:focusable="false"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager_top"
+            android:layout_width="match_parent"
+            android:layout_height="800dp"></android.support.v4.view.ViewPager>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:background="#666"
+                android:textColor="#fff"
+                android:textSize="20sp"
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
+            <LinearLayout
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_price"
+                    android:textSize="20sp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+                <TextView
+
+                    android:id="@+id/tv_discount"
+
+                    android:textSize="20sp"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            android:text="上拉查看详情"
+            android:gravity="center"
+            android:background="#ccc"
+            android:textSize="18sp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp" />
+    </LinearLayout>
+
+</com.example.saisai.yoho.view.snapscrollview.McoyScrollView>

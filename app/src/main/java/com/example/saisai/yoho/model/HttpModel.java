@@ -20,8 +20,11 @@ public class HttpModel {
     public static final String PINPAI_XIANGQING_ZHEKOU="https://api.yoho.cn/?app_version=4.8.0&brand=197&client_secret=920cbbc51bde8a7ebc8cb48df330751b&client_type=android&limit=20&method=app.search.brand&order=p_d_asc&os_version=android4.4.2%3AGT-I9268&page=1&productSize=240x319&screen_size=720x1280&v=7&yh_channel=1";
     //关注页面刷新连接
     public static final String FENLEI_GUANZHU_REFRESH="https://service.yoho.cn/guang/api/v1/attention/getlist?app_version=4.8.0&client_secret=f89bb617d02942260683a9dfc30c91b3&client_type=android&gender=1%2C3&os_version=android4.4.2%3AGT-I9268&page=1&screen_size=720x1280&v=7&yh_channel=1";
-
+    public static final String FLLOW = HOST + "follow.php";
     public static  final  String HOMEPAGER=HOST+"homepager.php";
 
+    public static final String ADDCART = HOST + "addcart.php";
+    public static final String CART = HOST + "cartlist.php";
+    public static final String GOODSDETAILS = HOST + "goodsvalue.php";
 }
 

@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_content"
+            android:layout_width="50dp"
+            android:layout_height="80dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/iv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="80dp">
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#333333"
+                android:text="asddaskkaskhak" />
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp" />
+
+            <TextView
+                android:id="@+id/tv_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="asddaskkaskhak" />
+
+            <View
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="颜色" />
+
+                <RadioGroup
+                    android:id="@+id/rd_group_ys"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <RadioButton
+                        android:id="@+id/rd_ys_1"
+                        android:text="白色"
+                        style="@style/dialog_add_gouwuche_radio_style" />
+
+                    <RadioButton
+                        android:id="@+id/rd_ys_2"
+                        style="@style/dialog_add_gouwuche_radio_style"
+                        android:text="红色" />
+
+                    <RadioButton
+                        android:id="@+id/rd_ys_3"
+                        style="@style/dialog_add_gouwuche_radio_style"
+                        android:text="绿色" />
+
+                    <RadioButton
+                        android:id="@+id/rd_ys_4"
+                        style="@style/dialog_add_gouwuche_radio_style"
+                        android:text="黑色" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="尺码" />
+
+                <RadioGroup
+                    android:id="@+id/rd_group_cm"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent">
+
+                    <RadioButton
+                        android:id="@+id/rd_cm_1"
+                        android:text="L"
+                        style="@style/dialog_add_gouwuche_radio_style" />
+
+                    <RadioButton
+                        android:id="@+id/rd_cm_2"
+                        style="@style/dialog_add_gouwuche_radio_style"
+                        android:text="XL" />
+
+                    <RadioButton
+                        android:id="@+id/rd_cm_3"
+                        style="@style/dialog_add_gouwuche_radio_style"
+                        android:text="XXL" />
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <TextView
+                    android:text="数量"
+                    android:layout_marginRight="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:id="@+id/tv_num_jian"
+                    android:background="@drawable/goods_add_dialog_jiajian_bshape"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:text="-" />
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:background="@drawable/goods_add_dialog_jiajian_bshape"
+                    android:id="@+id/tv_show_num"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:text="1" />
+
+                <TextView
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:background="@drawable/goods_add_dialog_jiajian_bshape"
+                    android:id="@+id/tv_num_jia"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:text="+" />
+
+                <TextView
+                    android:layout_marginLeft="10dp"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center"
+                    android:id="@+id/tv_num_shengyu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_queding"
+        android:onClick="tianjia"
+        android:layout_gravity="center"
+        android:background="@drawable/goods_add_gouwuche_bg_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="确定" />
+</LinearLayout>

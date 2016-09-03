@@ -1,15 +1,9 @@
 package com.example.saisai.yoho.activity;
 
-import android.content.ComponentName;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.os.PersistableBundle;
-import android.os.RemoteException;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,15 +12,18 @@ import android.widget.FrameLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
+import com.example.saisai.yoho.MyApplication;
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.NavigationViewAdapter;
+import com.example.saisai.yoho.bean.ShangPinXiangQingBean;
 import com.example.saisai.yoho.event.MainJumpPinpaiXiangqingActivityEvent;
+import com.example.saisai.yoho.event.UpdateCartCountEvent;
 import com.example.saisai.yoho.fragment.FenleiFragment;
 import com.example.saisai.yoho.fragment.GuangFragment;
 import com.example.saisai.yoho.fragment.ShouyeFragment;
 import com.example.saisai.yoho.fragment.WodeFragment;
+import com.example.saisai.yoho.util.LocalCartUtils;
 import com.example.saisai.yoho.view.MyRadioButton;
 import com.example.saisai.yoho.view.MySlidingPaneLayout;
 
@@ -90,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         ButterKnife.bind(this);
 
+        initCartCount();
+
         if(findFragment()){
             initFragment();
         }else {
@@ -105,6 +104,26 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setSelectChange(position);
             }
         });
+    }
+
+    private void initCartCount() {
+
+        if (MyApplication.checkLogin()) {
+//            new HttpUtils().loadData().setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
+//                @Override
+//                public void loadSuccess(String content) {
+//
+//                }
+//
+//                @Override
+//                public void loadFailed(String msg) {
+//
+//                }
+//            });
+        } else {
+            List<ShangPinXiangQingBean.GoodsBean> goodsBeen = LocalCartUtils.get();
+            MyApplication.count = goodsBeen.size();
+        }
     }
 
     private boolean findFragment() {
@@ -183,6 +202,8 @@ public class MainActivity extends AppCompatActivity {
         myRadioButtonList.add(rdGuang);
         myRadioButtonList.add(rdGouwuche);
         myRadioButtonList.add(rdWode);
+
+        rdGouwuche.setRedDotTextNum(MyApplication.count);
     }
 
     @Override
@@ -233,6 +254,13 @@ public class MainActivity extends AppCompatActivity {
         if(event.flag==0){
             startActivity(new Intent(this,PinPaiXiangqingActivity.class));
             overridePendingTransition(R.anim.pinpai_xiangqing_activity_in,R.anim.main_pinpai_xiangqing_activity_out);
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void subsUpdateCartCountEvent(UpdateCartCountEvent event) {
+        if (event != null) {
+            rdGouwuche.setRedDotTextNum(MyApplication.count);
         }
     }
 

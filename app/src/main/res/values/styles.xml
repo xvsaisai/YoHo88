@@ -38,4 +38,18 @@
         <item name="android:windowEnterAnimation">@anim/pop_tran_in</item>
         <item name="android:windowExitAnimation">@anim/pop_tran_out</item>
     </style>
+
+    <style name="add_dialog_anim">
+        <item name="android:windowEnterAnimation">@anim/add_dialog_in</item>
+        <item name="android:windowExitAnimation">@anim/add_dialog_out</item>
+    </style>
+
+    <style name="dialog_add_gouwuche_radio_style">
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:background">@drawable/goods_add_gouwuche_bg_select</item>
+        <item name="android:layout_width">70dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>
