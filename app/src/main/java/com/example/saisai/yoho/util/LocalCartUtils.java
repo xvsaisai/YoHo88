@@ -38,5 +38,11 @@ public class LocalCartUtils {
 
         List<ShangPinXiangQingBean.GoodsBean> goodsBeen = get();
         goodsBeen.remove(bean);
+        String s = new Gson().toJson(goodsBeen);
+        SPUtils.save("cart", s);
+    }
+
+    public static void clearCart() {
+        SPUtils.clear("cart");
     }
 }

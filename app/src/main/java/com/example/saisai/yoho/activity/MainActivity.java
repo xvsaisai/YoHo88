@@ -111,6 +111,11 @@ public class MainActivity extends AppCompatActivity {
                 adapter.setSelectChange(position);
             }
         });
+
+////       MyIntentService service=new MyIntentService();
+//        Intent intent=new Intent(this,MyIntentService.class);
+//        intent.putExtra("url","http://192.168.1.76:8080/jyq/news2");
+//        startActivity(intent);
     }
 
 
@@ -141,7 +146,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
 
             List<ShangPinXiangQingBean.GoodsBean> goodsBeen = LocalCartUtils.get();
-            MyApplication.count = goodsBeen.size();
+//            MyApplication.count = goodsBeen.size();
 //            EventBus.getDefault().post(new UpdateCartCountEvent());
 
         }
@@ -228,6 +233,12 @@ public class MainActivity extends AppCompatActivity {
         myRadioButtonList.add(rdWode);
 
         rdGouwuche.setRedDotTextNum(MyApplication.count);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+//        MyLog.m("MainActivity-----onNewIntent");
     }
 
     @Override

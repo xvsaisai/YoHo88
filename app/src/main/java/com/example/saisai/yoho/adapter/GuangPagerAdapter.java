@@ -2,28 +2,28 @@ package com.example.saisai.yoho.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
 /**
- * Created by saisai on 2016/8/23.
+ * Created by saisai on 2016/9/5.
  */
-public class FenLeiPagerAdapter extends FragmentPagerAdapter {
+public class GuangPagerAdapter extends FragmentStatePagerAdapter {
 
-    private List<Fragment> list;
-    private List<String> titles;
-    public FenLeiPagerAdapter(FragmentManager fm,List<Fragment> list,List<String> titles) {
+    List<Fragment> list;
+    List<String> titles;
+
+    public GuangPagerAdapter(FragmentManager fm, List<Fragment> list, List<String> titles) {
         super(fm);
-        this.list=list;
-        this.titles=titles;
+        this.list = list;
+        this.titles = titles;
     }
 
     @Override
     public Fragment getItem(int position) {
         return list.get(position);
     }
-
 
     @Override
     public int getCount() {

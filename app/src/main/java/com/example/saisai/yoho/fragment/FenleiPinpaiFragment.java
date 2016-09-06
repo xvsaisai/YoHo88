@@ -28,6 +28,18 @@ import java.util.List;
 /**
  * Created by saisai on 2016/8/25.
  */
+
+//public class FenleiPinpaiFragment extends Fragment{
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//
+//        TextView tv=new TextView(getContext());
+//        tv.setText(getClass().getSimpleName());
+//        return tv;
+//    }
+//}
+
 public class FenleiPinpaiFragment extends LazyBaseFragment implements View.OnClickListener {
     private android.widget.RadioButton rdboy;
     private android.widget.RadioButton rdgirl;
@@ -49,7 +61,11 @@ public class FenleiPinpaiFragment extends LazyBaseFragment implements View.OnCli
         EventBus.getDefault().register(this);
     }
 
-    @Override
+//    @Override
+
+//import org.greenrobot.eventbus.Subscribe;
+//import org.greenrobot.eventbus.ThreadMode;
+
     protected int getLayoutId() {
         return R.layout.fragment_fenlei_pinpai;
     }

@@ -1,6 +1,7 @@
 package com.example.saisai.yoho.activity;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -21,6 +22,7 @@ import com.example.saisai.yoho.event.QuanxuanCheckedEvent;
 import com.example.saisai.yoho.event.UpdateCartCountEvent;
 import com.example.saisai.yoho.event.UpdateCartItemEvent;
 import com.example.saisai.yoho.model.HttpModel;
+import com.example.saisai.yoho.model.UserRequestState;
 import com.example.saisai.yoho.util.HttpUtils;
 import com.example.saisai.yoho.util.LocalCartUtils;
 import com.google.gson.Gson;
@@ -164,6 +166,7 @@ public class GouWuCheActivity extends BaseActivity {
         this.tvbianji = (TextView) findViewById(R.id.tv_bianji);
         jianqian = findViewById(R.id.jiaqian);
         btnMove = (Button) findViewById(R.id.btn_move);
+        //region 全选
         cb_quanxuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -181,7 +184,8 @@ public class GouWuCheActivity extends BaseActivity {
                 setZongjia(price, seletCount);
             }
         });
-
+        //endregion
+        //region 编辑
         tvbianji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,6 +207,79 @@ public class GouWuCheActivity extends BaseActivity {
 
             }
         });
+        //endregion
+        //region 收藏
+        btnMove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (MyApplication.checkLogin()) {
+                    moveToShouCang();
+                } else {
+                    //登录
+                    login();
+                }
+            }
+        });
+        //endregion
+    }
+
+    /**
+     * 登录
+     */
+    private void login() {
+
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("state", UserRequestState.YIDONG_STATE);
+        startActivityForResult(intent, UserRequestState.YIDONG_STATE);
+    }
+
+    /**
+     * 移动到收藏夹
+     */
+    private void moveToShouCang() {
+
+        showLoadDialog();
+        shoucang();
+    }
+
+    //收藏
+    private void shoucang() {
+
+        new HttpUtils().loadData(HttpModel.COLLECTION, "").setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
+            @Override
+            public void loadSuccess(String content) {
+                cancelLoadDialog();
+                //
+                List<ItemCartBean> temp = new ArrayList<ItemCartBean>();
+                for (ItemCartBean bean : list) {
+
+                    if (bean.isChecked) {
+                        temp.add(bean);
+                    }
+                }
+                list.removeAll(temp);
+                addGoodsAdapter.notifyDataSetChanged();
+                MyApplication.count = list.size();
+                EventBus.getDefault().post(new UpdateCartItemEvent());
+                Toast.makeText(GouWuCheActivity.this, content, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void loadFailed(String msg) {
+                cancelLoadDialog();
+                Toast.makeText(GouWuCheActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == UserRequestState.YIDONG_STATE && resultCode == RESULT_OK) {
+            moveToShouCang();
+        }
     }
 
     @Override

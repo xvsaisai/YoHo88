@@ -6,10 +6,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.adapter.FenLeiPagerAdapter;
 import com.example.saisai.yoho.base.BaseFrament;
+import com.example.saisai.yoho.util.MyLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +30,13 @@ public class FenleiFragment extends BaseFrament {
     private FenleiPinleiFragment fenleiPinleiFragment;
     private FenleiPinpaiFragment fenleiPinpaiFragment;
     private FenleiGuanZhuFragment fenleiGuanZhuFragment;
+    private List<ImageView> imageViews;
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container) {
 
         inflate = inflater.inflate(R.layout.fragmment_fenlei, null);
+        MyLog.m("FenleiFragment===initView");
 
         pager = (ViewPager) inflate.findViewById(R.id.pager);
         tab = (TabLayout) inflate.findViewById(R.id.tab);
@@ -61,6 +65,7 @@ public class FenleiFragment extends BaseFrament {
     public void initAdapter() {
         pager.setOffscreenPageLimit(list.size());//设置预缓存页数
         adapter = new FenLeiPagerAdapter(getFragmentManager(),list,titles);
+
         pager.setAdapter(adapter);
         tab.setupWithViewPager(pager);
         pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {

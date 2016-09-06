@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import com.example.saisai.yoho.MyApplication;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +30,11 @@ public class SPUtils {
     public static void setSearchHistroy(String key,String value){
         MyApplication.app.getSharedPreferences("SearchHistroy", 0).edit().putString(key,value).commit();
 
+    }
+
+    //删除数据
+    public static void clear(String key) {
+        MyApplication.app.getSharedPreferences("Config", 0).edit().remove(key);
     }
 
     //获取搜索历史记录

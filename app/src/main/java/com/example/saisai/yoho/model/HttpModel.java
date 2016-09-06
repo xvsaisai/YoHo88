@@ -26,5 +26,7 @@ public class HttpModel {
     public static final String ADDCART = HOST + "addcart.php";
     public static final String CART = HOST + "cartlist.php";
     public static final String GOODSDETAILS = HOST + "goodsvalue.php";
+
+    public static final String COLLECTION = HOST + "CollectionShop.php";
 }
 

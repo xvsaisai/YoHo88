@@ -6,6 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -94,6 +95,11 @@ public class PullLoadListView extends RelativeLayout {
                 }
             }
         });
+
+    }
+
+    public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+        lv.setOnItemClickListener(listener);
     }
 
     public void setAdapter(BaseAdapter adapter){
@@ -278,4 +284,5 @@ public class PullLoadListView extends RelativeLayout {
     public void setOnPullOrLoadListener(OnPullOrLoadListener onPullOrLoadListener){
         this.onPullOrLoadListener=onPullOrLoadListener;
     }
+
 }

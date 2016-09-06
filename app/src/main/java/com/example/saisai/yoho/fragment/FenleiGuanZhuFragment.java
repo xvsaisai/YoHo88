@@ -25,6 +25,17 @@ import java.util.List;
 /**
  * Created by saisai on 2016/8/24.
  */
+
+//public class FenleiGuanZhuFragment extends Fragment {
+//    @Nullable
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+//
+//        TextView tv=new TextView(getContext());
+//        tv.setText(getClass().getSimpleName());
+//        return tv;
+//    }
+//}
 public class FenleiGuanZhuFragment extends LazyBaseFragment implements PullListView.OnPullListener {
 
     private View inflate;
