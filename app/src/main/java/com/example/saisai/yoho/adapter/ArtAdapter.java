@@ -25,6 +25,7 @@ public class ArtAdapter extends BaseAdapter {
 
     private List<ArBean.DataBean.ListBean.ArtListBean> list;
     private Context context;
+    private OnSharedListener onSharedListener;
 
     public ArtAdapter(List<ArBean.DataBean.ListBean.ArtListBean> list, Context context) {
         this.list = list;
@@ -47,7 +48,7 @@ public class ArtAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ViewHolder holder = null;
         if (convertView == null) {
@@ -66,8 +67,26 @@ public class ArtAdapter extends BaseAdapter {
         holder.tvTitle.setText(artListBean.getTitle());
         holder.tvDesc.setText(artListBean.getTitle());
         holder.tvTime.setText(artListBean.getPublish_time());
+        holder.ivFenxiang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                EventBus.getDefault().post(new FenxiangEvent(position));
+                if (onSharedListener != null) {
+                    onSharedListener.onShared(position);
+                }
+            }
+        });
         return convertView;
     }
+
+    public interface OnSharedListener {
+        void onShared(int position);
+    }
+
+    public void setOnSharedListener(OnSharedListener onSharedListener) {
+        this.onSharedListener = onSharedListener;
+    }
+
 
     static class ViewHolder {
         @Bind(R.id.iv_head)

@@ -69,6 +69,44 @@ public class GouWuCheActivity extends BaseActivity {
         initData();
         initAdapter();
 
+        initListener();
+
+
+    }
+
+    private void initListener() {
+
+        btnjiesuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (list.size() > 0) {
+                    int count = 0;
+                    for (int i = 0; i < list.size(); i++) {
+                        if (list.get(i).isChecked) {
+                            count++;
+                            break;
+                        }
+                    }
+                    if (count == 0) {
+                        return;
+                    }
+                    if (MyApplication.checkLogin()) {
+                        //已登录，直接结算
+                        jiesuan();
+                    } else {
+                        //未登录，跳转到登录界面
+                        login(UserRequestState.JIESUAN_STATE);
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 结算
+     */
+    private void jiesuan() {
+        Toast.makeText(this, "结算", Toast.LENGTH_SHORT).show();
     }
 
     private void initAdapter() {
@@ -128,6 +166,7 @@ public class GouWuCheActivity extends BaseActivity {
                     map.put(bean, integer + 1);
                 }
             }
+
 //            listKey = LocalCartUtils.get();
 
             for (int i = 0; i < goodsBeen.size(); i++) {
@@ -217,7 +256,7 @@ public class GouWuCheActivity extends BaseActivity {
                     moveToShouCang();
                 } else {
                     //登录
-                    login();
+                    login(UserRequestState.YIDONG_STATE);
                 }
             }
         });
@@ -227,11 +266,11 @@ public class GouWuCheActivity extends BaseActivity {
     /**
      * 登录
      */
-    private void login() {
+    private void login(int state) {
 
         Intent intent = new Intent(this, LoginActivity.class);
-        intent.putExtra("state", UserRequestState.YIDONG_STATE);
-        startActivityForResult(intent, UserRequestState.YIDONG_STATE);
+        intent.putExtra("state", state);
+        startActivityForResult(intent, state);
     }
 
     /**
@@ -279,6 +318,8 @@ public class GouWuCheActivity extends BaseActivity {
 
         if (requestCode == UserRequestState.YIDONG_STATE && resultCode == RESULT_OK) {
             moveToShouCang();
+        } else if (requestCode == UserRequestState.JIESUAN_STATE && resultCode == RESULT_OK) {
+            jiesuan();
         }
     }
 

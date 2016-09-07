@@ -2,14 +2,14 @@ package com.example.saisai.yoho.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.List;
 
 /**
  * Created by saisai on 2016/8/24.
  */
-public class FenleiPinleiPagerAdapter extends FragmentPagerAdapter {
+public class FenleiPinleiPagerAdapter extends FragmentStatePagerAdapter {
 
     private List<Fragment> list;
 

@@ -32,6 +32,7 @@ public class GuangFragment extends BaseFrament {
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container) {
 
+
         View inflate = inflater.inflate(R.layout.fragment_guang, null);
         this.pager = (ViewPager) inflate.findViewById(R.id.pager);
         this.tab = (TabLayout) inflate.findViewById(R.id.tab);
@@ -68,4 +69,6 @@ public class GuangFragment extends BaseFrament {
         pager.setAdapter(adapter);
         tab.setupWithViewPager(pager);
     }
+
+
 }

@@ -24,6 +24,8 @@ public class MyRadioButton extends RadioButton {
     private int redDotTextSize;
     private int redDotTextNum;
     private int redDotRedus;
+    private Rect rect;
+    private float v;
 
     public MyRadioButton(Context context) {
         this(context,null);
@@ -57,17 +59,18 @@ public class MyRadioButton extends RadioButton {
         paintText.setColor(redDotTextColor);
         paintText.setAntiAlias(true);
         paintText.setTextSize(redDotTextSize);
+        rect = new Rect();
+
     }
+
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        if(redDotTextNum!=-1){
+        if (redDotTextNum > 0) {
             canvas.drawCircle(getWidth()/4*3,getHeight()/4,redDotRedus,paintCircle);
-
-            float v = paintText.measureText(redDotTextNum + "", 0, (redDotTextNum + "").length());
-            Rect rect=new Rect();
+            v = paintText.measureText(redDotTextNum + "", 0, (redDotTextNum + "").length());
             paintText.getTextBounds(redDotTextNum + "",0, (redDotTextNum + "").length(),rect);
             canvas.drawText(redDotTextNum + "",0,(redDotTextNum + "").length(),getWidth()/4*3-v/2,getHeight()/4+rect.height()/2,paintText);
         }

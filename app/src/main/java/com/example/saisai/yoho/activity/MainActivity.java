@@ -26,12 +26,15 @@ import com.example.saisai.yoho.fragment.GuangFragment;
 import com.example.saisai.yoho.fragment.ShouyeFragment;
 import com.example.saisai.yoho.fragment.WodeFragment;
 import com.example.saisai.yoho.model.HttpModel;
+import com.example.saisai.yoho.user.User;
 import com.example.saisai.yoho.util.HttpUtils;
 import com.example.saisai.yoho.util.LocalCartUtils;
 import com.example.saisai.yoho.util.MyLog;
+import com.example.saisai.yoho.util.SPUtils;
 import com.example.saisai.yoho.view.MyRadioButton;
 import com.example.saisai.yoho.view.MySlidingPaneLayout;
 import com.google.gson.Gson;
+import com.xys.libzxing.zxing.activity.CaptureActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -122,12 +125,17 @@ public class MainActivity extends AppCompatActivity {
     //初始化购物车图标显示的数量
     private void initCartCount() {
 
+        String user = SPUtils.get("user");
+        User user1 = new Gson().fromJson(user, User.class);
+        if (user1 != null) {
+            MyApplication.user = user1;
+        }
         //从网络请求过来的数据有延迟
         if (MyApplication.checkLogin()) {
             new HttpUtils().loadData(HttpModel.CART, "parames={\"userId\":" + MyApplication.user.id + "}").setOnLoadDataListener(new HttpUtils.OnLoadDataListener() {
                 @Override
                 public void loadSuccess(String content) {
-
+                    MyLog.m("已登录");
                     CartItemBean cartItemBean = new Gson().fromJson(content, CartItemBean.class);
                     List<CartItemBean.Cart> cart = cartItemBean.getCart();
                     int num = 0;
@@ -144,10 +152,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
         } else {
-
+            MyLog.m("未登录");
             List<ShangPinXiangQingBean.GoodsBean> goodsBeen = LocalCartUtils.get();
-//            MyApplication.count = goodsBeen.size();
-//            EventBus.getDefault().post(new UpdateCartCountEvent());
+            MyApplication.count = goodsBeen.size();
+            EventBus.getDefault().post(new UpdateCartCountEvent());
 
         }
     }
@@ -297,24 +305,26 @@ public class MainActivity extends AppCompatActivity {
     public void subsUpdateCartCountEvent(UpdateCartCountEvent event) {
         if (event != null) {
             rdGouwuche.setRedDotTextNum(MyApplication.count);
+            rdGouwuche.invalidate();
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
 
-        if(fragmentMap.get(ShouyeFragment.class.getSimpleName()).isAdded()){
-            getSupportFragmentManager().putFragment(outState,"shouye",fragmentMap.get(ShouyeFragment.class.getSimpleName()));
-        }
-        if(fragmentMap.get(FenleiFragment.class.getSimpleName()).isAdded()){
-            getSupportFragmentManager().putFragment(outState,"fenlei",fragmentMap.get(FenleiFragment.class.getSimpleName()));
-        }
-        if(fragmentMap.get(GuangFragment.class.getSimpleName()).isAdded()){
-            getSupportFragmentManager().putFragment(outState,"guang",fragmentMap.get(GuangFragment.class.getSimpleName()));
-        }
-        if(fragmentMap.get(WodeFragment.class.getSimpleName()).isAdded()){
-            getSupportFragmentManager().putFragment(outState,"wode",fragmentMap.get(WodeFragment.class.getSimpleName()));
-        }
+//        if(fragmentMap.get(ShouyeFragment.class.getSimpleName()).isAdded()){
+//            getSupportFragmentManager().putFragment(outState,"shouye",fragmentMap.get(ShouyeFragment.class.getSimpleName()));
+//        }
+//        if(fragmentMap.get(FenleiFragment.class.getSimpleName()).isAdded()){
+//            getSupportFragmentManager().putFragment(outState,"fenlei",fragmentMap.get(FenleiFragment.class.getSimpleName()));
+//        }
+//        if(fragmentMap.get(GuangFragment.class.getSimpleName()).isAdded()){
+//            getSupportFragmentManager().putFragment(outState,"guang",fragmentMap.get(GuangFragment.class.getSimpleName()));
+//        }
+//        if(fragmentMap.get(WodeFragment.class.getSimpleName()).isAdded()){
+//            getSupportFragmentManager().putFragment(outState,"wode",fragmentMap.get(WodeFragment.class.getSimpleName()));
+//        }
+//        outState.putParcelable(ShouyeFragment.class.getSimpleName(),shouyeFragment);
         super.onSaveInstanceState(outState);
     }
 
@@ -340,10 +350,17 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.pinpai_xiangqing_activity_in,R.anim.main_activity_toleft);
     }
     public void shouyeSaomiao(View view){
-        Intent intent=new Intent(this,SaomiaoActivity.class);
-        startActivity(intent);
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, 0);
         overridePendingTransition(R.anim.pinpai_xiangqing_activity_in,R.anim.main_activity_toleft);
+    }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 0 && resultCode == RESULT_OK) {  //扫描成功
+            String result = data.getStringExtra("result");
+            Toast.makeText(this, result, Toast.LENGTH_SHORT).show();
+        }
     }
 }

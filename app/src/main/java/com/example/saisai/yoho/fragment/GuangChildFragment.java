@@ -8,6 +8,8 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Toast;
 
+import com.example.saisai.share.bean.FenxiangBean;
+import com.example.saisai.share.dialog.ShareDialog;
 import com.example.saisai.yoho.R;
 import com.example.saisai.yoho.activity.WebActivity;
 import com.example.saisai.yoho.adapter.ArtAdapter;
@@ -28,7 +30,7 @@ import java.util.List;
 /**
  * Created by saisai on 2016/9/5.
  */
-public class GuangChildFragment extends BaseFrament implements AdapterView.OnItemClickListener {
+public class GuangChildFragment extends BaseFrament implements AdapterView.OnItemClickListener, ArtAdapter.OnSharedListener {
     private com.example.saisai.yoho.view.PullLoadListView pulllistview;
     private List<ArBean.DataBean.ListBean.ArtListBean> list = new ArrayList<>();
     private List<BannerBean> beanList;
@@ -37,6 +39,8 @@ public class GuangChildFragment extends BaseFrament implements AdapterView.OnIte
 
     @Override
     public View initView(LayoutInflater inflater, ViewGroup container) {
+
+//        EventBus.getDefault().register(activity);
         View inflate = inflater.inflate(R.layout.fragment_child_guang, null);
         this.pulllistview = (PullLoadListView) inflate.findViewById(R.id.pulllistview);
         artAdapter = new ArtAdapter(list, getContext());
@@ -56,6 +60,7 @@ public class GuangChildFragment extends BaseFrament implements AdapterView.OnIte
 
         pulllistview.addHeadView(banner);
         banner.loadData(HttpModel.BANNER, "");
+        artAdapter.setOnSharedListener(this);
         loadData();
     }
 
@@ -88,5 +93,25 @@ public class GuangChildFragment extends BaseFrament implements AdapterView.OnIte
         Intent intent = new Intent(getContext(), WebActivity.class);
         intent.putExtra("url", artListBean.getUrl());
         startActivity(intent);
+    }
+
+
+    List<FenxiangBean> fenxiangBeanList = new ArrayList<>();
+
+    @Override
+    public void onShared(int position) {
+        for (int i = 0; i < 5; i++) {
+            FenxiangBean bean = new FenxiangBean();
+            bean.setTitle("title1");
+            bean.setTitleUrl("http://www.baidu.com");
+            bean.setImageUrl("http://img05.tooopen.com/images/20150202/sy_80219211654.jpg");
+            fenxiangBeanList.add(bean);
+        }
+
+        int i = position % list.size();
+        FenxiangBean bean = fenxiangBeanList.get(i);
+        ShareDialog dialog = new ShareDialog(activity, bean);
+        dialog.show();
+        fenxiangBeanList = null;
     }
 }

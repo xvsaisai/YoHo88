@@ -21,5 +21,11 @@ public class UserRequestState {
      * 移到收藏夹
      */
     public static final int YIDONG_STATE = 3;
+    /**
+     * 我的
+     */
+    public static final int WODE = 4;
+
+
 
 }
