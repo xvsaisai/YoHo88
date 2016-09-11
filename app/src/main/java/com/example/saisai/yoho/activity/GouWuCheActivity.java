@@ -25,6 +25,7 @@ import com.example.saisai.yoho.model.HttpModel;
 import com.example.saisai.yoho.model.UserRequestState;
 import com.example.saisai.yoho.util.HttpUtils;
 import com.example.saisai.yoho.util.LocalCartUtils;
+import com.example.saisai.yoho.util.SerialiBean;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -79,6 +80,10 @@ public class GouWuCheActivity extends BaseActivity {
         btnjiesuan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                if(list.size()==0){
+//                    Toast.makeText(GouWuCheActivity.this,"请选择要结算的商品",Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
                 if (list.size() > 0) {
                     int count = 0;
                     for (int i = 0; i < list.size(); i++) {
@@ -88,6 +93,8 @@ public class GouWuCheActivity extends BaseActivity {
                         }
                     }
                     if (count == 0) {
+                        Toast.makeText(GouWuCheActivity.this, "请选择要结算的商品", Toast.LENGTH_SHORT).show();
+
                         return;
                     }
                     if (MyApplication.checkLogin()) {
@@ -106,7 +113,18 @@ public class GouWuCheActivity extends BaseActivity {
      * 结算
      */
     private void jiesuan() {
-        Toast.makeText(this, "结算", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "结算", Toast.LENGTH_SHORT).show();
+
+
+        List<ItemCartBean> beanList = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i).isChecked) {
+                beanList.add(list.get(i));
+            }
+        }
+        Intent intent = new Intent(this, DingdanquerenActivity.class);
+        intent.putExtra("data", new SerialiBean(beanList));
+        startActivity(intent);
     }
 
     private void initAdapter() {
@@ -157,6 +175,9 @@ public class GouWuCheActivity extends BaseActivity {
 
             List<ShangPinXiangQingBean.GoodsBean> goodsBeen = LocalCartUtils.get();
             map = new HashMap<>();
+            if (goodsBeen == null) {
+                return;
+            }
             for (int i = 0; i < goodsBeen.size(); i++) {
                 ShangPinXiangQingBean.GoodsBean bean = goodsBeen.get(i);
                 Integer integer = map.get(bean);

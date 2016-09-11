@@ -24,7 +24,6 @@ import com.example.saisai.yoho.view.MyBanner;
 import com.example.saisai.yoho.view.PullLoadListView;
 import com.example.saisai.yoho.view.ShouyeGridVIew;
 import com.google.gson.Gson;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -195,13 +194,13 @@ public class ShouyeFragment extends BaseFrament{
 
                     case AbsListView.OnScrollListener.SCROLL_STATE_FLING:
                     case AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL:
-//                        adapter.isDrag = true;
-                        Picasso.with(getActivity()).pauseTag(view);
+                        adapter.isDrag = true;
+//                        Picasso.with(getActivity()).pauseTag(view);
                         break;
                     case AbsListView.OnScrollListener.SCROLL_STATE_IDLE:
-//                        adapter.isDrag = false;
-//                        adapter.notifyDataSetChanged();
-                        Picasso.with(getActivity()).resumeTag(view);
+                        adapter.isDrag = false;
+                        adapter.notifyDataSetChanged();
+//                        Picasso.with(getActivity()).resumeTag(view);
                         break;
                 }
             }

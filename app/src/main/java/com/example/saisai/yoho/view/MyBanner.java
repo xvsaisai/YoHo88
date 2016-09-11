@@ -6,11 +6,8 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -22,6 +19,7 @@ import com.example.saisai.yoho.util.DimensUtils;
 import com.example.saisai.yoho.util.HttpUtils;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -141,7 +139,9 @@ public class MyBanner extends RelativeLayout {
         list.clear();
         for(int i=0;i<listData.size();i++){
             ImageView iv = getIv();
-            Picasso.with(getContext()).load(HttpModel.IMGHOST+listData.get(i).getImgpath()).fit().into(iv);
+            Picasso.with(getContext()).load(HttpModel.IMGHOST + listData.get(i).getImgpath())
+                    .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                    .fit().into(iv);
             list.add(iv);
         }
         dotGroup.removeAllViews();

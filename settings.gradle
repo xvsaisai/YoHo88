@@ -1,1 +1,1 @@
-include ':app', ':share', ':newshare', ':libzxing'
+include ':app', ':share', ':newshare', ':libzxing', ':bdmap', ':alipay'

@@ -1,5 +1,6 @@
 package com.example.saisai.yoho.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -30,7 +31,7 @@ public class CartItemBean {
         return cart;
     }
 
-    public static class Cart {
+    public static class Cart implements Serializable {
         /**
          * title : nike1
          * imgpath : menshose2.jpg

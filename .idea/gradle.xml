@@ -9,7 +9,9 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/alipay" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/bdmap" />
             <option value="$PROJECT_DIR$/libzxing" />
             <option value="$PROJECT_DIR$/newshare" />
             <option value="$PROJECT_DIR$/share" />
@@ -18,7 +20,9 @@
         <option name="myModules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/alipay" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/bdmap" />
             <option value="$PROJECT_DIR$/libzxing" />
             <option value="$PROJECT_DIR$/newshare" />
             <option value="$PROJECT_DIR$/share" />

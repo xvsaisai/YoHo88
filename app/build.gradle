@@ -39,4 +39,5 @@ dependencies {
     compile project(':newshare')
     compile project(':libzxing')
     compile files('libs/Bmob_Push_V1.0.0beta_20160627.jar')
+    compile project(':bdmap')
 }

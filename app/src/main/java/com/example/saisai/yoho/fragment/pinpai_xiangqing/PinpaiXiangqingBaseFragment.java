@@ -86,7 +86,9 @@ public abstract class PinpaiXiangqingBaseFragment extends LazyBaseFragment imple
                 holder.tv_desc.setText("啊方便时候搜服好哦啊手");
 
 //                if (!isDrag) {
-                Picasso.with(getContext()).load(HttpModel.IMGHOST + list.get(position).getGoodsimg()).fit().into(holder.iv);
+                Picasso.with(getContext()).load(HttpModel.IMGHOST + list.get(position).getGoodsimg())
+//                        .memoryPolicy(MemoryPolicy.NO_CACHE,MemoryPolicy.NO_STORE)
+                        .fit().into(holder.iv);
 //                } else {
 //                    holder.iv.setScaleType(ImageView.ScaleType.CENTER_CROP);
 //                    holder.iv.setImageResource(R.drawable.goodslist_placeholder);

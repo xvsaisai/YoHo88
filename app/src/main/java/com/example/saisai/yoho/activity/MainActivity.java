@@ -154,7 +154,11 @@ public class MainActivity extends AppCompatActivity {
         } else {
             MyLog.m("未登录");
             List<ShangPinXiangQingBean.GoodsBean> goodsBeen = LocalCartUtils.get();
-            MyApplication.count = goodsBeen.size();
+            if (goodsBeen != null) {
+                MyApplication.count = goodsBeen.size();
+            } else {
+                MyApplication.count = 0;
+            }
             EventBus.getDefault().post(new UpdateCartCountEvent());
 
         }
@@ -332,7 +336,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
-
+        fragmentMap = null;
         MyLog.m("MainActivity------destory");
     }
 
